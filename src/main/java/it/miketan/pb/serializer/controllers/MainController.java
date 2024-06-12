@@ -2,20 +2,21 @@ package it.miketan.pb.serializer.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
+import javafx.stage.FileChooser;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
-import java.util.Map;
-import java.util.LinkedHashMap;
+import java.io.*;
+import java.util.*;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 non-sealed public class MainController implements IController {
@@ -78,8 +79,50 @@ non-sealed public class MainController implements IController {
    }
 
    @FXML
-   protected void onLoadBtnClick() {
-      //TODO: Create logic around importing file with its values.
+   protected void onLoadBtnClick() throws IOException {
+      FileChooser fc = new FileChooser();
+      File file = fc.showOpenDialog(null);
+      fc.setTitle("Open Subsystem");
+      if (file != null) {
+         FileReader fr = new FileReader(file);
+         BufferedReader br = new BufferedReader(fr);
+         String strLn;
+
+
+         while((strLn = br.readLine()) != null) {
+            if (strLn.contains("value:")) {
+
+               String[] parts = strLn.split("value:");
+               String value = "";
+               if (parts.length > 1) {
+                  value = parts[1].trim();
+               }
+
+               System.out.println(strLn + " - " + "String length: " + strLn.length());
+
+               switch (strLn) {
+                  case "  act_count:" -> actCountField.setText(value);
+                  case "  act_duration:" -> actDurationField.setText(value);
+                  case "  act_heat:" -> heatField.setText(value);
+                  case "  mass:" -> massField.setText(value);
+                  case "  scrap_value:" -> scrapValueField.setText(value);
+                  case "  wpn_concussion:" -> wpnConcussionField.setText(value);
+                  case "  wpn_damage:" -> wpnDamageField.setText(value);
+                  case "  wpn_damage_radius:" -> wpnDamageRadiusField.setText(value);
+                  case "  wpn_impact:" -> wpnImpactField.setText(value);
+                  case "  wpn_impact_radius:" -> wpnImpactRadiusField.setText(value);
+                  case "  wpn_proj_lifetime:" -> wpnProjLifeTimeField.setText(value);
+                  case "  wpn_proj_ricochet:" -> wpnProjRicochetField.setText(value);
+                  case "  wpn_range_max:" -> wpnRangeMaxField.setText(value);
+                  case "  wpn_range_min:" -> wpnRangeMinField.setText(value);
+                  case "  wpn_scatter_angle:" -> wpnScatterAngleField.setText(value);
+                  case "  wpn_scatter_angle_moving:" -> wpnScatterAngleMovingField.setText(value);
+                  case "  wpn_speed:" -> wpnSpeedField.setText(value);
+                  default -> System.out.println("not found!");
+               }
+            }
+         }
+      }
    }
 
    @FXML
@@ -129,6 +172,7 @@ non-sealed public class MainController implements IController {
 
       Instant instant = Instant.now();
       LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+
       int hour = ldt.getHour();
       int minutes = ldt.getMinute();
       int seconds = ldt.getSecond();
@@ -142,7 +186,7 @@ non-sealed public class MainController implements IController {
 
       if (dirCreated) {
 
-         try (FileWriter writer = new FileWriter("YamlOutput/wpn_main" + "_stats_" + "output" + dateFinal + "_" + hour + minutes + seconds +".yaml")) {
+         try (FileWriter writer = new FileWriter("YamlOutput/" + "stats_" + "output" + dateFinal + "_" + hour + minutes + seconds +".yaml")) {
             yaml.dump(nestedTags, writer);
             yaml.dump(nestedStatDistribution, writer);
             yaml.dump(statsRoot, writer);

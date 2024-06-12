@@ -2,7 +2,7 @@ tags: ''
 statDistribution: ''
 stats:
   act_count:
-    value: 0
+    value: 1
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
@@ -17,72 +17,72 @@ stats:
     targetSocket: ''
     targetHardpoint: ''
   mass:
-    value: 0
+    value: 20
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   scrap_value:
-    value: 0
+    value: 4
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_concussion:
-    value: 0
+    value: 4
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_damage:
-    value: 0
+    value: 5
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_damage_radius:
-    value: 0
+    value: 6
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_impact:
-    value: 0
+    value: 222
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_impact_radius:
-    value: 0
+    value: 234
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_proj_lifetime:
-    value: 0
+    value: 567
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_proj_ricochet:
-    value: 0
+    value: 78934
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_range_max:
-    value: 0
+    value: 23242
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_range_min:
-    value: 0
+    value: 54535
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_scatter_angle:
-    value: 0
+    value: 2422
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_scatter_angle_moving:
-    value: 0
+    value: 2424
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
   wpn_speed:
-    value: 0
+    value: 2424
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''
