@@ -5,12 +5,20 @@ import javafx.scene.control.TextField;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Map;
 import java.util.LinkedHashMap;
 
-public class MainController {
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
+
+non-sealed public class MainController implements IController {
 
    @FXML
    private TextField actCountField;
@@ -49,7 +57,7 @@ public class MainController {
 
    //Fill text fields to 0
    @FXML
-   protected void initialize() {
+   public void initialize() {
       actCountField.setText("0");
       actDurationField.setText("0");
       heatField.setText("0");
@@ -115,12 +123,44 @@ public class MainController {
 
          statsRoot.put("stats", nestedStats);
 
-      try (FileWriter writer = new FileWriter("wpn_main" + "_stats_" + "output" + ".yaml")) {
-         yaml.dump(nestedTags, writer);
-         yaml.dump(nestedStatDistribution, writer);
-         yaml.dump(statsRoot, writer);
-      } catch (IOException e) {
-         e.printStackTrace();
+      LocalDate date = LocalDate.now();
+      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+      String dateFinal = date.format(dtf);
+
+      Instant instant = Instant.now();
+      LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+      int hour = ldt.getHour();
+      int minutes = ldt.getMinute();
+      int seconds = ldt.getSecond();
+
+      String directory = "YamlOutput";
+      String currDir = System.getProperty("user.dir");
+      String path = currDir + File.separator + directory;
+
+      File dir = new File(path);
+      boolean dirCreated = dir.mkdir();
+
+      if (dirCreated) {
+
+         try (FileWriter writer = new FileWriter("YamlOutput/wpn_main" + "_stats_" + "output" + dateFinal + "_" + hour + minutes + seconds +".yaml")) {
+            yaml.dump(nestedTags, writer);
+            yaml.dump(nestedStatDistribution, writer);
+            yaml.dump(statsRoot, writer);
+         } catch (IOException e) {
+            e.printStackTrace();
+         }
+         System.out.println("created: " + path);
+
+      } else {
+
+         try (FileWriter writer = new FileWriter("YamlOutput/wpn_main" + "_stats_" + "output" + dateFinal + "_" + hour + minutes + seconds +".yaml")) {
+            yaml.dump(nestedTags, writer);
+            yaml.dump(nestedStatDistribution, writer);
+            yaml.dump(statsRoot, writer);
+         } catch (IOException e) {
+            e.printStackTrace();
+         }
+         System.out.println("file saved at" + path);
       }
    }
 
