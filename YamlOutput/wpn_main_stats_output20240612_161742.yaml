@@ -7,7 +7,7 @@ stats:
     targetSocket: ''
     targetHardpoint: ''
   act_duration:
-    value: 0
+    value: 234324
     targetMode: 0
     targetSocket: ''
     targetHardpoint: ''

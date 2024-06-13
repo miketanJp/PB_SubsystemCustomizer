@@ -1,8 +1,8 @@
 package it.miketan.pb.serializer.controllers;
 
+import it.miketan.pb.serializer.StatType;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
 import javafx.stage.FileChooser;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -15,8 +15,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 non-sealed public class MainController implements IController {
@@ -78,49 +76,59 @@ non-sealed public class MainController implements IController {
       wpnSpeedField.setText("0");
    }
 
+
+
    @FXML
    protected void onLoadBtnClick() throws IOException {
       FileChooser fc = new FileChooser();
-      File file = fc.showOpenDialog(null);
       fc.setTitle("Open Subsystem");
+      File file = fc.showOpenDialog(null);
+      String strLn;
+
       if (file != null) {
-         FileReader fr = new FileReader(file);
-         BufferedReader br = new BufferedReader(fr);
-         String strLn;
+         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
+            while((strLn = br.readLine()) != null) {
+               String fieldName = strLn.split(":")[0].trim();
+               String valueName = strLn.trim();
 
-         while((strLn = br.readLine()) != null) {
-            if (strLn.contains("value:")) {
-
-               String[] parts = strLn.split("value:");
-               String value = "";
-               if (parts.length > 1) {
-                  value = parts[1].trim();
+               if (valueName.contains(": ''")) {
+                  valueName = strLn.split(": ")[1].trim();
+               } else if (valueName.contains("value:")) {
+                  valueName = strLn.split(":")[1].trim();
+               } else if (valueName.contains(":")) {
+                  continue;
                }
 
-               System.out.println(strLn + " - " + "String length: " + strLn.length());
+               StatType statTypes = StatType.valueOf(fieldName.toUpperCase());
+               int index = strLn.indexOf(fieldName);
 
-               switch (strLn) {
-                  case "  act_count:" -> actCountField.setText(value);
-                  case "  act_duration:" -> actDurationField.setText(value);
-                  case "  act_heat:" -> heatField.setText(value);
-                  case "  mass:" -> massField.setText(value);
-                  case "  scrap_value:" -> scrapValueField.setText(value);
-                  case "  wpn_concussion:" -> wpnConcussionField.setText(value);
-                  case "  wpn_damage:" -> wpnDamageField.setText(value);
-                  case "  wpn_damage_radius:" -> wpnDamageRadiusField.setText(value);
-                  case "  wpn_impact:" -> wpnImpactField.setText(value);
-                  case "  wpn_impact_radius:" -> wpnImpactRadiusField.setText(value);
-                  case "  wpn_proj_lifetime:" -> wpnProjLifeTimeField.setText(value);
-                  case "  wpn_proj_ricochet:" -> wpnProjRicochetField.setText(value);
-                  case "  wpn_range_max:" -> wpnRangeMaxField.setText(value);
-                  case "  wpn_range_min:" -> wpnRangeMinField.setText(value);
-                  case "  wpn_scatter_angle:" -> wpnScatterAngleField.setText(value);
-                  case "  wpn_scatter_angle_moving:" -> wpnScatterAngleMovingField.setText(value);
-                  case "  wpn_speed:" -> wpnSpeedField.setText(value);
-                  default -> System.out.println("not found!");
+
+               if (fieldName.equals(statTypes.name().toLowerCase()) && index != -1) {
+                  switch (statTypes) {
+                     case ACT_COUNT -> actCountField.setText(valueName);
+                     case ACT_DURATION -> actDurationField.setText(valueName);
+                     case ACT_HEAT -> heatField.setText(valueName);
+                     case MASS -> massField.setText(valueName);
+                     case SCRAP_VALUE -> scrapValueField.setText(valueName);
+                     case WPN_CONCUSSION -> wpnConcussionField.setText(valueName);
+                     case WPN_DAMAGE -> wpnDamageField.setText(valueName);
+                     case WPN_DAMAGE_RADIUS -> wpnDamageRadiusField.setText(valueName);
+                     case WPN_IMPACT -> wpnImpactField.setText(valueName);
+                     case WPN_IMPACT_RADIUS -> wpnImpactRadiusField.setText(valueName);
+                     case WPN_PROJ_LIFETIME -> wpnProjLifeTimeField.setText(valueName);
+                     case WPN_PROJ_RICOCHET -> wpnProjRicochetField.setText(valueName);
+                     case WPN_RANGE_MAX -> wpnRangeMaxField.setText(valueName);
+                     case WPN_RANGE_MIN -> wpnRangeMinField.setText(valueName);
+                     case WPN_SCATTER_ANGLE -> wpnScatterAngleField.setText(valueName);
+                     case WPN_SCATTER_ANGLE_MOVING -> wpnScatterAngleMovingField.setText(valueName);
+                     case WPN_SPEED -> wpnSpeedField.setText(valueName);
+                     default -> System.out.println("not found!");
+                  }
                }
             }
+         } catch (Exception e) {
+            e.printStackTrace();
          }
       }
    }
@@ -166,46 +174,48 @@ non-sealed public class MainController implements IController {
 
          statsRoot.put("stats", nestedStats);
 
-      LocalDate date = LocalDate.now();
-      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
-      String dateFinal = date.format(dtf);
+         //Setting up date and time for outputting it in file name.
+         LocalDate date = LocalDate.now();
+         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+         String dateFinal = date.format(dtf);
 
-      Instant instant = Instant.now();
-      LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+         Instant instant = Instant.now();
+         LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
 
-      int hour = ldt.getHour();
-      int minutes = ldt.getMinute();
-      int seconds = ldt.getSecond();
+         int hour = ldt.getHour();
+         int minutes = ldt.getMinute();
+         int seconds = ldt.getSecond();
 
-      String directory = "YamlOutput";
-      String currDir = System.getProperty("user.dir");
-      String path = currDir + File.separator + directory;
+         String directory = "YamlOutput";
+         String currDir = System.getProperty("user.dir");
+         String path = currDir + File.separator + directory;
 
-      File dir = new File(path);
-      boolean dirCreated = dir.mkdir();
+         File dir = new File(path);
+         boolean dirCreated = dir.mkdir();
 
-      if (dirCreated) {
+         //check if the folder is created. File will created together with the folder for the first time.
+         if (dirCreated) {
 
-         try (FileWriter writer = new FileWriter("YamlOutput/" + "stats_" + "output" + dateFinal + "_" + hour + minutes + seconds +".yaml")) {
-            yaml.dump(nestedTags, writer);
-            yaml.dump(nestedStatDistribution, writer);
-            yaml.dump(statsRoot, writer);
-         } catch (IOException e) {
-            e.printStackTrace();
+            try (FileWriter writer = new FileWriter("YamlOutput/" + "stats_" + "output" + dateFinal + "_" + hour + minutes + seconds +".yaml")) {
+               yaml.dump(nestedTags, writer);
+               yaml.dump(nestedStatDistribution, writer);
+               yaml.dump(statsRoot, writer);
+            } catch (IOException e) {
+               e.printStackTrace();
+            }
+            System.out.println("created: " + path);
+
+         } else {
+
+            try (FileWriter writer = new FileWriter("YamlOutput/wpn_main" + "_stats_" + "output" + dateFinal + "_" + hour + minutes + seconds +".yaml")) {
+               yaml.dump(nestedTags, writer);
+               yaml.dump(nestedStatDistribution, writer);
+               yaml.dump(statsRoot, writer);
+            } catch (IOException e) {
+               e.printStackTrace();
+            }
+            System.out.println("file saved at" + path);
          }
-         System.out.println("created: " + path);
-
-      } else {
-
-         try (FileWriter writer = new FileWriter("YamlOutput/wpn_main" + "_stats_" + "output" + dateFinal + "_" + hour + minutes + seconds +".yaml")) {
-            yaml.dump(nestedTags, writer);
-            yaml.dump(nestedStatDistribution, writer);
-            yaml.dump(statsRoot, writer);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-         System.out.println("file saved at" + path);
-      }
    }
 
    private static Map<String, Object> createNesting(Integer value) {
