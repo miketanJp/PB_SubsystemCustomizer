@@ -1,6 +1,5 @@
 package it.miketan.pb.serializer.controllers;
 
-import it.miketan.pb.serializer.StatType;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
@@ -83,47 +82,155 @@ non-sealed public class MainController implements IController {
       FileChooser fc = new FileChooser();
       fc.setTitle("Open Subsystem");
       File file = fc.showOpenDialog(null);
-      String strLn;
 
       if (file != null) {
-         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+         try (InputStream input = new FileInputStream(file)) {
+            Yaml yaml = new Yaml();
+            Map<String, Object> data = yaml.load(input);
 
-            while((strLn = br.readLine()) != null) {
-               String fieldName = strLn.split(":")[0].trim();
-               String valueName = strLn.trim();
+            for (Map.Entry<String, Object> entry : data.entrySet()) {
+               String fieldName = entry.getKey();
+               Object value = entry.getValue();
 
-               if (valueName.contains(": ''")) {
-                  valueName = strLn.split(": ")[1].trim();
-               } else if (valueName.contains("value:")) {
-                  valueName = strLn.split(":")[1].trim();
-               } else if (valueName.contains(":")) {
-                  continue;
-               }
+               if (value instanceof Map) {
+                  Map<String, Object> nestedMap = (Map<String, Object>) value;
+                  for (Map.Entry<String, Object> nestedEntry : nestedMap.entrySet()) {
+                     String nestedFieldName = nestedEntry.getKey();
+                     Object nestedValue = nestedEntry.getValue();
 
-               StatType statTypes = StatType.valueOf(fieldName.toUpperCase());
-               int index = strLn.indexOf(fieldName);
+                     if (nestedFieldName != null) {
+                        System.out.println("Value detected");
+                        System.out.println("Nested Field Name: " + nestedFieldName);
+                        System.out.println("Nested" + nestedFieldName + " value: " + ((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                     } else {
+                        System.out.println("value not detected!");
+                     }
+
+                     if (nestedValue instanceof LinkedHashMap) {
+
+                        switch (Objects.requireNonNull(nestedFieldName)) {
+                           case "act_count" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 actCountField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+                           case "act_duration" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 actDurationField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+                           case "act_heat" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 heatField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "mass" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 massField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "scrap_value" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 scrapValueField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_concussion" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnConcussionField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_damage" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnDamageField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_damage_radius" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnDamageRadiusField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_impact" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnImpactField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_impact_radius" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnImpactRadiusField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_proj_lifetime" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnProjLifeTimeField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_proj_ricochet" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnProjRicochetField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_range_max" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnRangeMaxField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_range_min" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnRangeMinField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_scatter_angle" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnScatterAngleField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_scatter_angle_moving" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnScatterAngleMovingField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                           case "wpn_speed" -> {
+                              if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                 wpnSpeedField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                              }
+                              continue;
+                           }
+
+                        }
 
 
-               if (fieldName.equals(statTypes.name().toLowerCase()) && index != -1) {
-                  switch (statTypes) {
-                     case ACT_COUNT -> actCountField.setText(valueName);
-                     case ACT_DURATION -> actDurationField.setText(valueName);
-                     case ACT_HEAT -> heatField.setText(valueName);
-                     case MASS -> massField.setText(valueName);
-                     case SCRAP_VALUE -> scrapValueField.setText(valueName);
-                     case WPN_CONCUSSION -> wpnConcussionField.setText(valueName);
-                     case WPN_DAMAGE -> wpnDamageField.setText(valueName);
-                     case WPN_DAMAGE_RADIUS -> wpnDamageRadiusField.setText(valueName);
-                     case WPN_IMPACT -> wpnImpactField.setText(valueName);
-                     case WPN_IMPACT_RADIUS -> wpnImpactRadiusField.setText(valueName);
-                     case WPN_PROJ_LIFETIME -> wpnProjLifeTimeField.setText(valueName);
-                     case WPN_PROJ_RICOCHET -> wpnProjRicochetField.setText(valueName);
-                     case WPN_RANGE_MAX -> wpnRangeMaxField.setText(valueName);
-                     case WPN_RANGE_MIN -> wpnRangeMinField.setText(valueName);
-                     case WPN_SCATTER_ANGLE -> wpnScatterAngleField.setText(valueName);
-                     case WPN_SCATTER_ANGLE_MOVING -> wpnScatterAngleMovingField.setText(valueName);
-                     case WPN_SPEED -> wpnSpeedField.setText(valueName);
-                     default -> System.out.println("not found!");
+                        }
+                        System.out.println("Nested Value: " + nestedValue);
                   }
                }
             }
@@ -136,86 +243,60 @@ non-sealed public class MainController implements IController {
    @FXML
    protected void onSaveBtnClick() throws NumberFormatException {
 
-      //DumperOption controls YAML indentation Style
-      DumperOptions dumperOptions = new DumperOptions();
-      dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-      dumperOptions.setPrettyFlow(true);
-      Yaml yaml = new Yaml(dumperOptions);
+      FileChooser fc = new FileChooser();
+      fc.setTitle("Save Subsystem");
+      File file = fc.showSaveDialog(null);
 
-      Map<String, Object> tagsRoot = new LinkedHashMap<>();
-      Map<String, Object> nestedTags = new LinkedHashMap<>();
+      if (file != null) {
 
-      Map<String, Object> statDistributionRoot = new LinkedHashMap<>();
-      Map<String, Object> nestedStatDistribution = new LinkedHashMap<>();
+         //DumperOption controls YAML indentation Style
+         DumperOptions dumperOptions = new DumperOptions();
+         dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+         dumperOptions.setPrettyFlow(true);
+         Yaml yaml = new Yaml(dumperOptions);
 
-      Map<String, Object> statsRoot = new LinkedHashMap<>();
-      Map<String, Object> nestedStats = new LinkedHashMap<>();
-         nestedStats.put("act_count", createNesting(Integer.parseInt(actCountField.getText())));
-         nestedStats.put("act_duration", createNesting(Integer.parseInt(actDurationField.getText())));
-         nestedStats.put("act_heat", createNesting(Integer.parseInt(heatField.getText())));
-         nestedStats.put("mass", createNesting(Integer.parseInt(massField.getText())));
-         nestedStats.put("scrap_value", createNesting(Integer.parseInt(scrapValueField.getText())));
-         nestedStats.put("wpn_concussion", createNesting(Integer.parseInt(wpnConcussionField.getText())));
-         nestedStats.put("wpn_damage", createNesting(Integer.parseInt(wpnDamageField.getText())));
-         nestedStats.put("wpn_damage_radius", createNesting(Integer.parseInt(wpnDamageRadiusField.getText())));
-         nestedStats.put("wpn_impact", createNesting(Integer.parseInt(wpnImpactField.getText())));
-         nestedStats.put("wpn_impact_radius", createNesting(Integer.parseInt(wpnImpactRadiusField.getText())));
-         nestedStats.put("wpn_proj_lifetime", createNesting(Integer.parseInt(wpnProjLifeTimeField.getText())));
-         nestedStats.put("wpn_proj_ricochet", createNesting(Integer.parseInt(wpnProjRicochetField.getText())));
-         nestedStats.put("wpn_range_max", createNesting(Integer.parseInt(wpnRangeMaxField.getText())));
-         nestedStats.put("wpn_range_min", createNesting(Integer.parseInt(wpnRangeMinField.getText())));
-         nestedStats.put("wpn_scatter_angle", createNesting(Integer.parseInt(wpnScatterAngleField.getText())));
-         nestedStats.put("wpn_scatter_angle_moving", createNesting(Integer.parseInt(wpnScatterAngleMovingField.getText())));
-         nestedStats.put("wpn_speed", createNesting(Integer.parseInt(wpnSpeedField.getText())));
+         Map<String, Object> tagsRoot = new LinkedHashMap<>();
+         Map<String, Object> nestedTags = new LinkedHashMap<>();
+
+         Map<String, Object> statDistributionRoot = new LinkedHashMap<>();
+         Map<String, Object> nestedStatDistribution = new LinkedHashMap<>();
+
+         Map<String, Object> statsRoot = new LinkedHashMap<>();
+         Map<String, Object> nestedStats = new LinkedHashMap<>();
+            nestedStats.put("act_count", createNesting(Integer.parseInt(actCountField.getText())));
+            nestedStats.put("act_duration", createNesting(Integer.parseInt(actDurationField.getText())));
+            nestedStats.put("act_heat", createNesting(Integer.parseInt(heatField.getText())));
+            nestedStats.put("mass", createNesting(Integer.parseInt(massField.getText())));
+            nestedStats.put("scrap_value", createNesting(Integer.parseInt(scrapValueField.getText())));
+            nestedStats.put("wpn_concussion", createNesting(Integer.parseInt(wpnConcussionField.getText())));
+            nestedStats.put("wpn_damage", createNesting(Integer.parseInt(wpnDamageField.getText())));
+            nestedStats.put("wpn_damage_radius", createNesting(Integer.parseInt(wpnDamageRadiusField.getText())));
+            nestedStats.put("wpn_impact", createNesting(Integer.parseInt(wpnImpactField.getText())));
+            nestedStats.put("wpn_impact_radius", createNesting(Integer.parseInt(wpnImpactRadiusField.getText())));
+            nestedStats.put("wpn_proj_lifetime", createNesting(Integer.parseInt(wpnProjLifeTimeField.getText())));
+            nestedStats.put("wpn_proj_ricochet", createNesting(Integer.parseInt(wpnProjRicochetField.getText())));
+            nestedStats.put("wpn_range_max", createNesting(Integer.parseInt(wpnRangeMaxField.getText())));
+            nestedStats.put("wpn_range_min", createNesting(Integer.parseInt(wpnRangeMinField.getText())));
+            nestedStats.put("wpn_scatter_angle", createNesting(Integer.parseInt(wpnScatterAngleField.getText())));
+            nestedStats.put("wpn_scatter_angle_moving", createNesting(Integer.parseInt(wpnScatterAngleMovingField.getText())));
+            nestedStats.put("wpn_speed", createNesting(Integer.parseInt(wpnSpeedField.getText())));
 
          nestedTags.put("tags", "");
-
          nestedStatDistribution.put("statDistribution", "");
-
          statsRoot.put("stats", nestedStats);
 
-         //Setting up date and time for outputting it in file name.
-         LocalDate date = LocalDate.now();
-         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
-         String dateFinal = date.format(dtf);
-
-         Instant instant = Instant.now();
-         LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-
-         int hour = ldt.getHour();
-         int minutes = ldt.getMinute();
-         int seconds = ldt.getSecond();
-
-         String directory = "YamlOutput";
+         String filename = file.getName();
          String currDir = System.getProperty("user.dir");
-         String path = currDir + File.separator + directory;
 
-         File dir = new File(path);
-         boolean dirCreated = dir.mkdir();
-
-         //check if the folder is created. File will created together with the folder for the first time.
-         if (dirCreated) {
-
-            try (FileWriter writer = new FileWriter("YamlOutput/" + "stats_" + "output" + dateFinal + "_" + hour + minutes + seconds +".yaml")) {
+            try (FileWriter writer = new FileWriter(file + ".yaml")) {
                yaml.dump(nestedTags, writer);
                yaml.dump(nestedStatDistribution, writer);
                yaml.dump(statsRoot, writer);
             } catch (IOException e) {
                e.printStackTrace();
             }
-            System.out.println("created: " + path);
-
-         } else {
-
-            try (FileWriter writer = new FileWriter("YamlOutput/wpn_main" + "_stats_" + "output" + dateFinal + "_" + hour + minutes + seconds +".yaml")) {
-               yaml.dump(nestedTags, writer);
-               yaml.dump(nestedStatDistribution, writer);
-               yaml.dump(statsRoot, writer);
-            } catch (IOException e) {
-               e.printStackTrace();
-            }
-            System.out.println("file saved at" + path);
-         }
+            System.out.println("created: " + file+".yaml");
+      }
    }
 
    private static Map<String, Object> createNesting(Integer value) {
