@@ -1,0 +1,6 @@
+jpackage --input target/ \
+  --name serializer \
+  --main-jar serializer.jar \
+  --main-class it.miketan.pb.serializer.SerializerApplication \
+  --type jar \
+  --java-options '--enable-preview'

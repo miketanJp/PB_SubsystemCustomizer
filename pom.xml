@@ -92,7 +92,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                it.miketan.pb.serializer.serializer/it.miketan.pb.serializer.SerializerApplication
+                                it.miketan.pb.serializer.SerializerApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
@@ -103,6 +103,20 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.1</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>
+                                    it.miketan.pb.serializer.SerializerApplication
+                                </mainClass>
+                            </manifest>
+                        </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>
