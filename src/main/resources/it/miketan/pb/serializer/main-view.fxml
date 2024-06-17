@@ -7,7 +7,6 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.image.ImageView?>
 <VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="it.miketan.pb.serializer.controllers.MainController">
     <padding>
@@ -102,5 +101,6 @@
     <HBox spacing="10">
          <Button text="Save" onAction="#onSaveBtnClick"/>
          <Button text="Import" onAction="#onLoadBtnClick"/>
+         <Button text="Copy to clipboard" onAction="#copyToClipboard"/>
     </HBox>
 </VBox>
