@@ -3,6 +3,8 @@ package it.miketan.pb.serializer.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.FileChooser;
@@ -49,6 +51,10 @@ non-sealed public class MainController implements IController {
    private TextField wpnScatterAngleMovingField;
    @FXML
    private TextField wpnSpeedField;
+   @FXML
+   private ImageView imageView;
+   @FXML
+   private Image image;
 
    //Fill text fields to 0
    @FXML
@@ -121,6 +127,11 @@ non-sealed public class MainController implements IController {
       Tooltip wpnSpeedTooltip = new Tooltip("Projectile speed. Higher value makes them travel very fast. Useful for railgun-style weapons for instance.");
       wpnSpeedField.setText("0");
       Tooltip.install(wpnSpeedField, wpnSpeedTooltip);
+   }
+
+   protected void displayImage() {
+      image = new Image(getClass().getResourceAsStream("pb_logo.png"));
+      imageView.setImage(image);
    }
 
 

@@ -7,11 +7,22 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <VBox spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="it.miketan.pb.serializer.controllers.MainController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
+
+    <HBox alignment="CENTER">
+        <ImageView fx:id="imageView" fitHeight="200" fitWidth="200" layoutX="10" layoutY="10">
+            <Image url="@pb_logo.png"/>
+        </ImageView>
+    </HBox>
+    <HBox alignment="BASELINE_CENTER">
+        <Text>Subsystem Customizer Tool</Text>
+    </HBox>
 
     <HBox spacing="10">
         <Text>Projectile magazine </Text>
@@ -98,9 +109,12 @@
         <TextField fx:id="wpnSpeedField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
-    <HBox spacing="10">
+    <HBox spacing="10" alignment="CENTER">
          <Button text="Save" onAction="#onSaveBtnClick"/>
          <Button text="Import" onAction="#onLoadBtnClick"/>
          <Button text="Copy to clipboard" onAction="#copyToClipboard"/>
+    </HBox>
+    <HBox alignment="BOTTOM_CENTER">
+        <Text>©2024 Miketan - Software under BSD-3 License</Text>
     </HBox>
 </VBox>
