@@ -5,6 +5,6 @@ import java.net.MalformedURLException;
 
 sealed interface IController permits MainController {
 
-   void initialize() throws FileNotFoundException, MalformedURLException;
+    void initialize() throws FileNotFoundException, MalformedURLException;
 
 }

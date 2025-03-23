@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.miketan.pb.serializer</groupId>
-    <artifactId>serializer</artifactId>
+    <artifactId>PB_SubsystemCustomizer</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>serializer</name>
+    <name>PB_SubsystemCustomizer</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,12 +18,12 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17.0.6</version>
+            <version>17.0.14</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17.0.6</version>
+            <version>17.0.14</version>
         </dependency>
         <dependency>
             <groupId>org.controlsfx</groupId>
@@ -104,24 +104,48 @@
                     </execution>
                 </executions>
             </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.4.1</version>
-                    <configuration>
-                        <archive>
-                            <manifest>
-                                <mainClass>
-                                    it.miketan.pb.serializer.SerializerApplication
-                                </mainClass>
-                            </manifest>
-                        </archive>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>
+                                it.miketan.pb.serializer.SerializerApplication
+                            </mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.4.0</version>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <archive>
+                                <manifest>
+                                    <mainClass>it.miketan.pb.serializer.SerializerApplication</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.4.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -129,12 +153,9 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>project-classifier</shadedClassifierName>
-                            <outputFile>shade\${project.artifactId}.jar</outputFile>
                             <transformers>
-                                <transformer implementation=
-                                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>it.miketan.pb.serializer.SerializerApplication</mainClass>
                                 </transformer>
                             </transformers>
@@ -142,6 +163,41 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Ensure the correct executable is used -->
+                                <exec executable="jpackage">
+                                    <arg value="--input"/>
+                                    <arg value="target"/>
+                                    <arg value="--name"/>
+                                    <arg value="exe"/>
+                                    <arg value="--main-jar"/>
+                                    <arg value="PB_SubsystemCustomizer-1.0-SNAPSHOT.jar"/>
+                                    <arg value="--main-class"/>
+                                    <arg value="it.miketan.pb.serializer.SerializerApplication"/>
+                                    <arg value="--type"/>
+                                    <arg value="app-image"/>
+                                    <arg value="--module-path"/>
+                                    <arg value="C:/javafx-sdk-17.0.14/lib"/>
+                                    <arg value="--add-modules"/>
+                                    <arg value="javafx.controls,javafx.fxml"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>
