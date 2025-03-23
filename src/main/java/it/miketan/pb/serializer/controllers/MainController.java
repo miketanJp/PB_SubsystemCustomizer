@@ -60,6 +60,16 @@ non-sealed public class MainController implements IController {
     @FXML
     private ImageView imageView;
 
+    private static Map<String, Object> createNesting(Integer value) {
+
+        Map<String, Object> nestedValue = new LinkedHashMap<>();
+        nestedValue.put("value", value);
+        nestedValue.put("targetMode", 0);
+        nestedValue.put("targetSocket", "");
+        nestedValue.put("targetHardpoint", "");
+        return nestedValue;
+    }
+
     //Fill text fields to 0
     @FXML
     public void initialize() {
@@ -137,7 +147,6 @@ non-sealed public class MainController implements IController {
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("pb_logo.png")));
         imageView.setImage(image);
     }
-
 
     @FXML
     protected void onLoadBtnClick() throws IOException {
@@ -359,16 +368,6 @@ non-sealed public class MainController implements IController {
             hiddenText.setVisible(true);
             hiddenText.setText("File saved successfully.");
         }
-    }
-
-    private static Map<String, Object> createNesting(Integer value) {
-
-        Map<String, Object> nestedValue = new LinkedHashMap<>();
-        nestedValue.put("value", value);
-        nestedValue.put("targetMode", 0);
-        nestedValue.put("targetSocket", "");
-        nestedValue.put("targetHardpoint", "");
-        return nestedValue;
     }
 
     private void addDigitFilter(TextField field) {

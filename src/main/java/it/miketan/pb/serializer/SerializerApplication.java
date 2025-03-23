@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class SerializerApplication extends Application {
+    public static void main(String[] args) {
+        Application.launch(SerializerApplication.class, args);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(SerializerApplication.class.getResource("main-view.fxml"));
@@ -16,9 +20,5 @@ public class SerializerApplication extends Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        Application.launch(SerializerApplication.class, args);
     }
 }
