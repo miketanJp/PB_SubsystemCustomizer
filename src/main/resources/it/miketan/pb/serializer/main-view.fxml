@@ -18,7 +18,7 @@
         </ImageView>
     </HBox>
     <HBox alignment="BASELINE_CENTER">
-        <Text>Subsystem Customizer Tool</Text>
+        <Text>Subsystem Customizer</Text>
     </HBox>
 
     <HBox spacing="10">
@@ -117,6 +117,6 @@
     </HBox>
 
     <HBox alignment="BOTTOM_CENTER">
-        <Text>©2024 Miketan - Software under BSD-3 License</Text>
+        <Text>©2025 Michele Paolucci A.K.A. MiketanJp - Software under BSD-3 License</Text>
     </HBox>
 </VBox>

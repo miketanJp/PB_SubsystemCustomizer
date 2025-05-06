@@ -168,13 +168,14 @@ non-sealed public class MainController implements IController {
                             String nestedFieldName = nestedEntry.getKey();
                             Object nestedValue = nestedEntry.getValue();
 
+                            /* COMMENTED FOR PERFORMANCE: UNCOMMENT TO DEBUG
                             if (nestedFieldName != null) {
                                 System.out.println("Value detected");
                                 System.out.println("Nested Field Name: " + nestedFieldName);
                                 System.out.println("Nested" + nestedFieldName + " value: " + ((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                             } else {
                                 System.out.println("value not detected!");
-                            }
+                            }*/
 
                             if (nestedValue instanceof LinkedHashMap) {
 
@@ -183,121 +184,105 @@ non-sealed public class MainController implements IController {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             actCountField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
                                     case "act_duration" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             actDurationField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
                                     case "act_heat" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             heatField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "mass" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             massField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "scrap_value" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             scrapValueField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_concussion" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnConcussionField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_damage" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnDamageField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_damage_radius" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnDamageRadiusField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_impact" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnImpactField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_impact_radius" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnImpactRadiusField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_proj_lifetime" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnProjLifeTimeField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_proj_ricochet" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnProjRicochetField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_range_max" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnRangeMaxField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_range_min" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnRangeMinField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_scatter_angle" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnScatterAngleField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_scatter_angle_moving" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnScatterAngleMovingField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
 
                                     case "wpn_speed" -> {
                                         if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
                                             wpnSpeedField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                         }
-                                        continue;
                                     }
                                 }
                             }
-                            System.out.println("Nested Value: " + nestedValue);
+                            // UNCOMMENT TO DEBUG.
+                            //System.out.println("Nested Value: " + nestedValue);
                         }
                     }
                 }

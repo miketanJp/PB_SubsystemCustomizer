@@ -16,7 +16,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 830);
-        stage.setTitle("PB Subsystem Customizer Tool");
+        stage.setTitle("PB Subsystem Customizer");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
