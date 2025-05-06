@@ -36,3 +36,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Other formats ###
+*.exe
+*.log
+*.dll
+*.jar
+*.class

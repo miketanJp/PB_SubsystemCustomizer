@@ -92,7 +92,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                it.miketan.pb.serializer.SerializerApplication
+                                it.miketan.pb.serializer.Main
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
@@ -112,7 +112,7 @@
                     <archive>
                         <manifest>
                             <mainClass>
-                                it.miketan.pb.serializer.SerializerApplication
+                                it.miketan.pb.serializer.Main
                             </mainClass>
                         </manifest>
                     </archive>
@@ -139,7 +139,7 @@
                                     <arg value="--main-jar"/>
                                     <arg value="PB_SubsystemCustomizer-1.0-SNAPSHOT.jar"/>
                                     <arg value="--main-class"/>
-                                    <arg value="it.miketan.pb.serializer.SerializerApplication"/>
+                                    <arg value="it.miketan.pb.serializer.Main"/>
                                     <arg value="--type"/>
                                     <arg value="app-image"/>
                                     <arg value="--add-modules"/>
@@ -151,30 +151,35 @@
                 </executions>
             </plugin>
 
-                    <!-- Altri plugin già presenti -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-shade-plugin</artifactId>
-                        <version>3.2.4</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>shade</goal>
-                                </goals>
-                                <configuration>
-                                    <transformers>
-                                        <transformer
-                                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                            <mainClass>it.miketan.pb.serializer.SerializerApplication</mainClass>
-                                        </transformer>
-                                    </transformers>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>it.miketan.pb.serializer.Main</mainClass>
+                        </manifest>
+                    </archive>
+                    <includeProjectArtifacts>true</includeProjectArtifacts>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
         </plugins>
+
+
     </build>
 </project>

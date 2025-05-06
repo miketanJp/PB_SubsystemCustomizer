@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+    <dontWrapJar>false</dontWrapJar>
+    <headerType>gui</headerType>
+    <jar>target\PB_SubsystemCustomizer-1.0-SNAPSHOT-jar-with-dependencies.jar
+    </jar>
+    <outfile>target\PB_SubsystemCustomizer.exe</outfile>
+    <errTitle></errTitle>
+    <cmdLine></cmdLine>
+    <chdir>.</chdir>
+    <priority>normal</priority>
+    <downloadUrl></downloadUrl>
+    <supportUrl></supportUrl>
+    <stayAlive>false</stayAlive>
+    <restartOnCrash>false</restartOnCrash>
+    <manifest></manifest>
+    <icon>output\output.ico</icon>
+    <singleInstance>
+        <mutexName>PB_SubsystemCustomizer.exe</mutexName>
+        <windowTitle>PBSubsystemCustomizer</windowTitle>
+    </singleInstance>
+    <classPath>
+        <mainClass>it.miketan.pb.serializer.Main</mainClass>
+        <cp>javafx-sdk-17.0.14\lib\*</cp>
+    </classPath>
+    <jre>
+        <path>%JAVA_HOME%;%PATH%</path>
+        <requiresJdk>true</requiresJdk>
+        <requires64Bit>false</requires64Bit>
+        <minVersion></minVersion>
+        <maxVersion></maxVersion>
+        <opt>-p</opt>
+        <opt>javafx-sdk-17.0.14/lib</opt>
+        <opt>--add-modules</opt>
+        <opt>javafx.controls,javafx.fxml</opt>
+    </jre>
+</launch4jConfig>
