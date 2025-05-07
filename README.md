@@ -1,5 +1,11 @@
 # Phantom Brigade<br>Subsystem Customizer Tool
 
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/miketanJp/PB_SubsystemCustomizer/total?color=red)
+![GitHub Release Date](https://img.shields.io/github/release-date/miketanJp/PB_SubsystemCustomizer) ![GitHub Release](https://img.shields.io/github/v/release/miketanJp/PB_SubsystemCustomizer?label=Version)
+
+
+
+
 **Author:** Michele Paolucci A.K.A. MiketanJp<br>
 **Version:** 1.0.0 (2025-05-06)<br>
 **Programming language:** Java Development Kit v17.0.14 (Liberica JDK)<br>
