@@ -1,26 +1,28 @@
 package it.miketan.pb.serializer.controllers;
 
+import it.miketan.pb.serializer.helpers.YamlHelper;
+import it.miketan.pb.serializer.utils.FiltersUtil;
+import it.miketan.pb.serializer.utils.TooltipsUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
 
-import java.io.*;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
+import java.util.Properties;
 
 
 non-sealed public class MainController implements IController {
 
+    @FXML
+    private Text versionText;
     @FXML
     private Text hiddenText;
     @FXML
@@ -60,87 +62,47 @@ non-sealed public class MainController implements IController {
     @FXML
     private ImageView imageView;
 
-    private static Map<String, Object> createNesting(Integer value) {
-
-        Map<String, Object> nestedValue = new LinkedHashMap<>();
-        nestedValue.put("value", value);
-        nestedValue.put("targetMode", 0);
-        nestedValue.put("targetSocket", "");
-        nestedValue.put("targetHardpoint", "");
-        return nestedValue;
-    }
-
-    //Fill text fields to 0
     @FXML
     public void initialize() {
 
-        Tooltip tooltipActCount = new Tooltip("how many projectiles can fire each use.");
-        actCountField.setText("0");
-        Tooltip.install(actCountField, tooltipActCount);
+        //Load the version from the properties file
+        try (var inputStream = getClass().getClassLoader().getResourceAsStream("application.properties")) {
+            if (inputStream != null) {
+                Properties properties = new Properties();
+                properties.load(inputStream);
 
-        Tooltip tooltipactDuration = new Tooltip("Duration of subsystem use in the timeline.");
-        actDurationField.setText("0");
-        Tooltip.install(actDurationField, tooltipactDuration);
+                //Strings for properties values
+                String versionValue = properties.getProperty("versionValue");
 
-        Tooltip heatTooltip = new Tooltip("Heat generated each use. More heat generated means it gets faster to overheat.");
-        heatField.setText("0");
-        Tooltip.install(heatField, heatTooltip);
+                //Set the text to FXML
+                versionText.setText("v" + versionValue);
 
-        Tooltip massTooltip = new Tooltip("The weight of the subsystem. The higher, the heavier.");
-        massField.setText("0");
-        Tooltip.install(massField, massTooltip);
+            } else {
+                versionText.setText("Version: N/A");
+            }
+        } catch (IOException e) {
+            versionText.setText("Errore nel caricamento della versione");
+        }
 
-        Tooltip scrapValueTooltip = new Tooltip("the value of the subsystem if scrapped either in battle or base inventory.");
-        scrapValueField.setText("0");
-        Tooltip.install(scrapValueField, scrapValueTooltip);
 
-        Tooltip wpnConcussionTooltip = new Tooltip("Concussion damage each projectile. Higher value means each projectile cause lots of concussion damage before neutralizing the enemy unit.");
-        wpnConcussionField.setText("0");
-        Tooltip.install(wpnConcussionField, wpnConcussionTooltip);
-
-        Tooltip wpnDamageTooltip = new Tooltip("Base damage each projectile. Higher value translates into high base damage.");
-        wpnDamageField.setText("0");
-        Tooltip.install(wpnDamageField, wpnDamageTooltip);
-
-        Tooltip wpnDamageRadiusTooltip = new Tooltip("Damage radius. Higher radius may help in creating weapons based on AoE-style damage.");
-        wpnDamageRadiusField.setText("0");
-        Tooltip.install(wpnDamageRadiusField, wpnDamageRadiusTooltip);
-
-        Tooltip wpnImpactTooltip = new Tooltip("Damage applied to environment (e.g. buildings, trees, etc.");
-        wpnImpactField.setText("0");
-        Tooltip.install(wpnImpactRadiusField, wpnImpactTooltip);
-
-        Tooltip wpnImpactRadiusTooltip = new Tooltip("Impact radius. The higher, the wider impact value will be applied.");
-        wpnImpactRadiusField.setText("0");
-        Tooltip.install(wpnImpactRadiusField, wpnImpactRadiusTooltip);
-
-        Tooltip wpnProjLifetimeTooltip = new Tooltip("Projectile's lifespan before expiration, either by exploding or fading up.");
-        wpnProjLifeTimeField.setText("0");
-        Tooltip.install(wpnProjLifeTimeField, wpnProjLifetimeTooltip);
-
-        Tooltip wpnProjRicochetTooltip = new Tooltip("Projectile ricochet. Higher value will increase the chance to ricochet when hitting the surface.");
-        wpnProjRicochetField.setText("0");
-        Tooltip.install(wpnProjRicochetField, wpnProjRicochetTooltip);
-
-        Tooltip wpnRangeMaxTooltip = new Tooltip("Subsystem maximum range. The higher, the far you can hit. Useful for ML and sniper rifles.");
-        wpnRangeMaxField.setText("0");
-        Tooltip.install(wpnRangeMaxField, wpnRangeMaxTooltip);
-
-        Tooltip wpnRangeMinTooltip = new Tooltip("Subsystem minimum range from which you can fire. Higher value means you can't hit at close range. Lowering the value is ideal for CQC firearms.");
-        wpnRangeMinField.setText("0");
-        Tooltip.install(wpnRangeMinField, wpnRangeMinTooltip);
-
-        Tooltip wpnScatterAngleTooltip = new Tooltip("Projectile dispersion angle when firing in Idle (expressed in Angle degree). Higher value makes projectiles dispersed in a wider angle, good especially for shotguns.");
-        wpnScatterAngleField.setText("0");
-        Tooltip.install(wpnScatterAngleField, wpnScatterAngleTooltip);
-
-        Tooltip wpnScatterAngleMovingTooltip = new Tooltip("Projectile dispersion angle when moving (expressed in Angle degree).");
-        wpnScatterAngleMovingField.setText("0");
-        Tooltip.install(wpnScatterAngleMovingField, wpnScatterAngleMovingTooltip);
-
-        Tooltip wpnSpeedTooltip = new Tooltip("Projectile speed. Higher value makes them travel very fast. Useful for railgun-style weapons for instance.");
-        wpnSpeedField.setText("0");
-        Tooltip.install(wpnSpeedField, wpnSpeedTooltip);
+        //Initialize the tooltips and fill the fields with 0 as default value for each one of them.
+        TooltipsUtil.initializeTooltip(actCountField, "how many projectiles can fire each use.");
+        TooltipsUtil.initializeTooltip(actDurationField, "Duration of subsystem use in the timeline.");
+        TooltipsUtil.initializeTooltip(heatField, "Heat generated each use. More heat generated means it gets faster to overheat.");
+        TooltipsUtil.initializeTooltip(massField, "The weight of the subsystem. The higher, the heavier.");
+        TooltipsUtil.initializeTooltip(scrapValueField, "the value of the subsystem if scrapped either in battle or base inventory.");
+        TooltipsUtil.initializeTooltip(wpnConcussionField, "Concussion damage each projectile. Higher value means each projectile cause lots of concussion damage before neutralizing the enemy unit.");
+        TooltipsUtil.initializeTooltip(wpnDamageField, "Base damage each projectile. Higher value translates into high base damage.");
+        TooltipsUtil.initializeTooltip(wpnDamageRadiusField, "Damage radius. Higher radius may help in creating weapons based on AoE-style damage.");
+        TooltipsUtil.initializeTooltip(wpnImpactField, "Damage applied to environment (e.g. buildings, trees, etc.");
+        TooltipsUtil.initializeTooltip(wpnImpactRadiusField, "Impact radius. The higher, the wider impact value will be applied.");
+        TooltipsUtil.initializeTooltip(wpnProjLifeTimeField, "Projectile's lifespan before expiration, either by exploding or fading up.");
+        TooltipsUtil.initializeTooltip(wpnProjRicochetField, "Projectile ricochet. Higher value will increase the chance to ricochet when hitting the surface.");
+        TooltipsUtil.initializeTooltip(wpnRangeMaxField, "Subsystem maximum range. The higher, the far you can hit. Useful for ML and sniper rifles.");
+        TooltipsUtil.initializeTooltip(wpnRangeMinField, "Subsystem minimum range from which you can fire. Higher value means you can't hit at close range. Lowering the value is ideal for CQC firearms.");
+        TooltipsUtil.initializeTooltip(wpnScatterAngleField, "Projectile dispersion angle when firing in Idle (expressed in Angle degree). Higher value makes projectiles dispersed in a wider angle, good especially for shotguns.");
+        TooltipsUtil.initializeTooltip(wpnScatterAngleMovingField, "Projectile dispersion angle when moving (expressed in Angle degree).");
+        TooltipsUtil.initializeTooltip(wpnSpeedField, "Projectile speed. Higher value makes them travel very fast. Useful for railgun-style weapons for instance.");
     }
 
     protected void displayImage() {
@@ -152,146 +114,15 @@ non-sealed public class MainController implements IController {
     protected void onLoadBtnClick() throws IOException {
         FileChooser fc = new FileChooser();
         fc.setTitle("Open Subsystem");
+
         File file = fc.showOpenDialog(null);
 
         if (file != null) {
-            try (InputStream input = new FileInputStream(file)) {
-                Yaml yaml = new Yaml();
-                Map<String, Object> data = yaml.load(input);
-
-                for (Map.Entry<String, Object> entry : data.entrySet()) {
-                    Object value = entry.getValue();
-
-                    if (value instanceof Map) {
-                        Map<String, Object> nestedMap = (Map<String, Object>) value;
-                        for (Map.Entry<String, Object> nestedEntry : nestedMap.entrySet()) {
-                            String nestedFieldName = nestedEntry.getKey();
-                            Object nestedValue = nestedEntry.getValue();
-
-                            /* COMMENTED FOR PERFORMANCE: UNCOMMENT TO DEBUG
-                            if (nestedFieldName != null) {
-                                System.out.println("Value detected");
-                                System.out.println("Nested Field Name: " + nestedFieldName);
-                                System.out.println("Nested" + nestedFieldName + " value: " + ((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                            } else {
-                                System.out.println("value not detected!");
-                            }*/
-
-                            if (nestedValue instanceof LinkedHashMap) {
-
-                                switch (Objects.requireNonNull(nestedFieldName)) {
-                                    case "act_count" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            actCountField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-                                    case "act_duration" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            actDurationField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-                                    case "act_heat" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            heatField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "mass" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            massField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "scrap_value" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            scrapValueField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_concussion" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnConcussionField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_damage" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnDamageField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_damage_radius" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnDamageRadiusField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_impact" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnImpactField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_impact_radius" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnImpactRadiusField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_proj_lifetime" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnProjLifeTimeField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_proj_ricochet" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnProjRicochetField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_range_max" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnRangeMaxField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_range_min" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnRangeMinField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_scatter_angle" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnScatterAngleField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_scatter_angle_moving" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnScatterAngleMovingField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-
-                                    case "wpn_speed" -> {
-                                        if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                            wpnSpeedField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                        }
-                                    }
-                                }
-                            }
-                            // UNCOMMENT TO DEBUG.
-                            //System.out.println("Nested Value: " + nestedValue);
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            hiddenText.setVisible(true);
-            hiddenText.setText("File imported successfully!");
+            YamlHelper.loadYaml(file, actCountField, actDurationField, heatField, massField, scrapValueField,
+                    wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
+                    wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
+                    wpnRangeMaxField, wpnRangeMinField, wpnScatterAngleField,
+                    wpnScatterAngleMovingField, wpnSpeedField, hiddenText);
         }
     }
 
@@ -300,139 +131,53 @@ non-sealed public class MainController implements IController {
 
         FileChooser fc = new FileChooser();
         fc.setTitle("Save Subsystem");
+
         File file = fc.showSaveDialog(null);
 
         if (file != null) {
-
-            //DumperOption controls YAML indentation Style
-            DumperOptions dumperOptions = new DumperOptions();
-            dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-            dumperOptions.setPrettyFlow(true);
-            Yaml yaml = new Yaml(dumperOptions);
-
-            Map<String, Object> tagsRoot = new LinkedHashMap<>();
-            Map<String, Object> nestedTags = new LinkedHashMap<>();
-
-            Map<String, Object> statDistributionRoot = new LinkedHashMap<>();
-            Map<String, Object> nestedStatDistribution = new LinkedHashMap<>();
-
-            Map<String, Object> statsRoot = new LinkedHashMap<>();
-            Map<String, Object> nestedStats = new LinkedHashMap<>();
-            nestedStats.put("act_count", createNesting(Integer.parseInt(actCountField.getText())));
-            nestedStats.put("act_duration", createNesting(Integer.parseInt(actDurationField.getText())));
-            nestedStats.put("act_heat", createNesting(Integer.parseInt(heatField.getText())));
-            nestedStats.put("mass", createNesting(Integer.parseInt(massField.getText())));
-            nestedStats.put("scrap_value", createNesting(Integer.parseInt(scrapValueField.getText())));
-            nestedStats.put("wpn_concussion", createNesting(Integer.parseInt(wpnConcussionField.getText())));
-            nestedStats.put("wpn_damage", createNesting(Integer.parseInt(wpnDamageField.getText())));
-            nestedStats.put("wpn_damage_radius", createNesting(Integer.parseInt(wpnDamageRadiusField.getText())));
-            nestedStats.put("wpn_impact", createNesting(Integer.parseInt(wpnImpactField.getText())));
-            nestedStats.put("wpn_impact_radius", createNesting(Integer.parseInt(wpnImpactRadiusField.getText())));
-            nestedStats.put("wpn_proj_lifetime", createNesting(Integer.parseInt(wpnProjLifeTimeField.getText())));
-            nestedStats.put("wpn_proj_ricochet", createNesting(Integer.parseInt(wpnProjRicochetField.getText())));
-            nestedStats.put("wpn_range_max", createNesting(Integer.parseInt(wpnRangeMaxField.getText())));
-            nestedStats.put("wpn_range_min", createNesting(Integer.parseInt(wpnRangeMinField.getText())));
-            nestedStats.put("wpn_scatter_angle", createNesting(Integer.parseInt(wpnScatterAngleField.getText())));
-            nestedStats.put("wpn_scatter_angle_moving", createNesting(Integer.parseInt(wpnScatterAngleMovingField.getText())));
-            nestedStats.put("wpn_speed", createNesting(Integer.parseInt(wpnSpeedField.getText())));
-
-            nestedTags.put("tags", "");
-            nestedStatDistribution.put("statDistribution", "");
-            statsRoot.put("stats", nestedStats);
-
-            try (FileWriter writer = new FileWriter(file + ".yaml")) {
-                yaml.dump(nestedTags, writer);
-                yaml.dump(nestedStatDistribution, writer);
-                yaml.dump(statsRoot, writer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("created: " + file + ".yaml");
-
-            hiddenText.setVisible(true);
-            hiddenText.setText("File saved successfully.");
+            YamlHelper.saveYaml(file, actCountField, actDurationField, heatField, massField, scrapValueField,
+                    wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
+                    wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
+                    wpnRangeMaxField, wpnRangeMinField, wpnScatterAngleField,
+                    wpnScatterAngleMovingField, wpnSpeedField, hiddenText);
         }
-    }
-
-    private void addDigitFilter(TextField field) {
-        field.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                field.setText(newValue.replaceAll("\\D", ""));
-            }
-        });
     }
 
     @FXML
     protected void copyToClipboard() {
         Clipboard clipboard = Clipboard.getSystemClipboard();
         ClipboardContent clipboardContent = new ClipboardContent();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        Alert error = new Alert(Alert.AlertType.ERROR);
+        //Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        //Alert error = new Alert(Alert.AlertType.ERROR);
 
-        //DumperOption controls YAML indentation Style
-        DumperOptions dumperOptions = new DumperOptions();
-        dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        dumperOptions.setPrettyFlow(true);
-        Yaml yaml = new Yaml(dumperOptions);
-
-        Map<String, Object> tagsRoot = new LinkedHashMap<>();
-        Map<String, Object> nestedTags = new LinkedHashMap<>();
-
-        Map<String, Object> statDistributionRoot = new LinkedHashMap<>();
-        Map<String, Object> nestedStatDistribution = new LinkedHashMap<>();
-
-        Map<String, Object> statsRoot = new LinkedHashMap<>();
-        Map<String, Object> nestedStats = new LinkedHashMap<>();
-        nestedStats.put("act_count", createNesting(Integer.parseInt(actCountField.getText())));
-        nestedStats.put("act_duration", createNesting(Integer.parseInt(actDurationField.getText())));
-        nestedStats.put("act_heat", createNesting(Integer.parseInt(heatField.getText())));
-        nestedStats.put("mass", createNesting(Integer.parseInt(massField.getText())));
-        nestedStats.put("scrap_value", createNesting(Integer.parseInt(scrapValueField.getText())));
-        nestedStats.put("wpn_concussion", createNesting(Integer.parseInt(wpnConcussionField.getText())));
-        nestedStats.put("wpn_damage", createNesting(Integer.parseInt(wpnDamageField.getText())));
-        nestedStats.put("wpn_damage_radius", createNesting(Integer.parseInt(wpnDamageRadiusField.getText())));
-        nestedStats.put("wpn_impact", createNesting(Integer.parseInt(wpnImpactField.getText())));
-        nestedStats.put("wpn_impact_radius", createNesting(Integer.parseInt(wpnImpactRadiusField.getText())));
-        nestedStats.put("wpn_proj_lifetime", createNesting(Integer.parseInt(wpnProjLifeTimeField.getText())));
-        nestedStats.put("wpn_proj_ricochet", createNesting(Integer.parseInt(wpnProjRicochetField.getText())));
-        nestedStats.put("wpn_range_max", createNesting(Integer.parseInt(wpnRangeMaxField.getText())));
-        nestedStats.put("wpn_range_min", createNesting(Integer.parseInt(wpnRangeMinField.getText())));
-        nestedStats.put("wpn_scatter_angle", createNesting(Integer.parseInt(wpnScatterAngleField.getText())));
-        nestedStats.put("wpn_scatter_angle_moving", createNesting(Integer.parseInt(wpnScatterAngleMovingField.getText())));
-        nestedStats.put("wpn_speed", createNesting(Integer.parseInt(wpnSpeedField.getText())));
-
-        nestedTags.put("tags", "");
-        nestedStatDistribution.put("statDistribution", "");
-        statsRoot.put("stats", nestedStats);
-
-        clipboardContent.putString(yaml.dump(statsRoot));
-
-        clipboard.setContent(clipboardContent);
-
-        hiddenText.setVisible(true);
-        hiddenText.setText("Copied successfully!");
+        if (clipboard != null) {
+            YamlHelper.fieldsToClipboard(clipboard, clipboardContent, actCountField, actDurationField, heatField, massField, scrapValueField,
+                    wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
+                    wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
+                    wpnRangeMaxField, wpnRangeMinField, wpnScatterAngleField,
+                    wpnScatterAngleMovingField, wpnSpeedField, hiddenText);
+        }
     }
 
     @FXML
     protected void onInput() {
-        addDigitFilter(actCountField);
-        addDigitFilter(actDurationField);
-        addDigitFilter(heatField);
-        addDigitFilter(massField);
-        addDigitFilter(scrapValueField);
-        addDigitFilter(wpnConcussionField);
-        addDigitFilter(wpnDamageField);
-        addDigitFilter(wpnDamageRadiusField);
-        addDigitFilter(wpnImpactField);
-        addDigitFilter(wpnImpactRadiusField);
-        addDigitFilter(wpnProjLifeTimeField);
-        addDigitFilter(wpnProjRicochetField);
-        addDigitFilter(wpnRangeMaxField);
-        addDigitFilter(wpnRangeMinField);
-        addDigitFilter(wpnScatterAngleField);
-        addDigitFilter(wpnScatterAngleMovingField);
-        addDigitFilter(wpnSpeedField);
+        FiltersUtil.addDigitFilter(actCountField);
+        FiltersUtil.addDigitFilter(actDurationField);
+        FiltersUtil.addDigitFilter(heatField);
+        FiltersUtil.addDigitFilter(massField);
+        FiltersUtil.addDigitFilter(scrapValueField);
+        FiltersUtil.addDigitFilter(wpnConcussionField);
+        FiltersUtil.addDigitFilter(wpnDamageField);
+        FiltersUtil.addDigitFilter(wpnDamageRadiusField);
+        FiltersUtil.addDigitFilter(wpnImpactField);
+        FiltersUtil.addDigitFilter(wpnImpactRadiusField);
+        FiltersUtil.addDigitFilter(wpnProjLifeTimeField);
+        FiltersUtil.addDigitFilter(wpnProjRicochetField);
+        FiltersUtil.addDigitFilter(wpnRangeMaxField);
+        FiltersUtil.addDigitFilter(wpnRangeMinField);
+        FiltersUtil.addDigitFilter(wpnScatterAngleField);
+        FiltersUtil.addDigitFilter(wpnScatterAngleMovingField);
+        FiltersUtil.addDigitFilter(wpnSpeedField);
     }
 
 }

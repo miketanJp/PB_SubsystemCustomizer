@@ -14,11 +14,11 @@
 
     <HBox alignment="CENTER">
         <ImageView fx:id="imageView" fitHeight="200" fitWidth="200" layoutX="10" layoutY="10">
-            <Image url="@pb_logo.png"/>
+            <Image url="@../../../../assets/pb_logo_alt.png"/>
         </ImageView>
     </HBox>
     <HBox alignment="BASELINE_CENTER">
-        <Text>Subsystem Customizer</Text>
+        <Text fx:id="versionText"/>
     </HBox>
 
     <HBox spacing="10">
