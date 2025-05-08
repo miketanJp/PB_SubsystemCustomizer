@@ -1,9 +1,9 @@
 # Phantom Brigade<br>Subsystem Customizer Tool
 
 **Author:** Michele Paolucci A.K.A. MiketanJp<br>
-**Version:** 1.0.0 (2025-05-06)<br>
+**Version:** 1.1.0 (TBD)<br>
 **Programming language:** Java Development Kit v17.0.14 (Liberica JDK)<br>
-**Framework(s) used:** JavaFX SDK v17.0.14, Snakeyaml v2.2<br>
+**Framework(s) used:** JavaFX SDK v21.0.5, Snakeyaml v2.2<br>
 **Requirements**: Java Runtime Environment (JRE) - last available version reccommended (v8u451)<br>
 **License:** BSD-3 Clause<br>
 
@@ -136,7 +136,7 @@ With the exception of `value` field, all the fields are set to `0` and `' '` by 
 **Note:** in order for the serializer to work correctly on the Import feature, the file must respect the above mentioned structure and indentation. The tool may not be able to load the file if the indentation is not correct.
 
 ## Tool installation / Development setup ⚙️
-The project is developed using **Java Development Kit v17.0.14 (Liberica JDK)** and **JavaFX SDK v17.0.14**. It is highly recommended to import the project with IntelliJ IDEA (Community Edition) to avoid issues and/or errors upon import.<br>
+The project is developed using **Java Development Kit v21.0.5** and **JavaFX SDK v17.0.14**. It is highly recommended to import the project with IntelliJ IDEA (Community Edition) to avoid issues and/or errors upon import.<br>
 
 To compile the application, it is crucial to download **OpenJFX SDK v17.0.14** and configured in the project, as JavaFX is no more bundled starting from **JDK 11** onward. You can download Javafx SDK from [JavaFX SDK website](https://gluonhq.com/products/javafx/).<br>
 
