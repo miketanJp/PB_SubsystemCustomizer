@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch4jConfig>
+
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>target\PB_SubsystemCustomizer-1.0-SNAPSHOT-jar-with-dependencies.jar</jar>
-  <outfile>target\PB_SubsystemCustomizer.exe</outfile>
+
+  <!-- Set the path to generated jar and output file to target folder -->
+  <jar>PB_SubsystemCustomizer\target\PB_SubsystemCustomizer-1.1.0-jar-with-dependencies.jar</jar>
+  <outfile>PB_SubsystemCustomizer\target\PB_SubsystemCustomizer.exe</outfile>
+
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -13,33 +17,39 @@
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>output\output.ico</icon>
+  <icon></icon>
+
   <singleInstance>
     <mutexName>PB_SubsystemCustomizer.exe</mutexName>
     <windowTitle>PBSubsystemCustomizer</windowTitle>
   </singleInstance>
+
   <classPath>
     <mainClass>it.miketan.pb.serializer.Main</mainClass>
     <cp>javafx-sdk-17.0.14\lib\*</cp>
   </classPath>
+
   <jre>
     <path>%JAVA_HOME%;%PATH%</path>
+    <!-- makes JDK required to run the program -->
     <requiresJdk>true</requiresJdk>
     <requires64Bit>false</requires64Bit>
-    <minVersion></minVersion>
-    <maxVersion></maxVersion>
+    <minVersion>1.8.0_451</minVersion>
+    <maxVersion>21.0.5</maxVersion>
     <opt>-p</opt>
     <opt>javafx-sdk-17.0.14/lib</opt>
     <opt>--add-modules</opt>
     <opt>javafx.controls,javafx.fxml</opt>
+    <opt>--enable-preview</opt>
   </jre>
+
   <versionInfo>
-    <fileVersion>1.0.0.0</fileVersion>
-    <txtFileVersion>1.0.0</txtFileVersion>
-    <fileDescription>A serializer tool for Weapon Subsystems in Phantom Brigade</fileDescription>
+    <fileVersion>1.1.0.0</fileVersion>
+    <txtFileVersion>1.1.0</txtFileVersion>
+    <fileDescription>A Subsystems serializer tool for Phantom Brigade</fileDescription>
     <copyright>© 2025 Michele Paolucci (miketanJp)</copyright>
-    <productVersion>1.0.0.0</productVersion>
-    <txtProductVersion>1.0.0</txtProductVersion>
+    <productVersion>1.1.0.0</productVersion>
+    <txtProductVersion>1.1.0</txtProductVersion>
     <productName>Phantom Brigade Subsystem Customizer</productName>
     <companyName></companyName>
     <internalName>PB_SubsystemCustomizer</internalName>
@@ -47,4 +57,13 @@
     <trademarks></trademarks>
     <language>ENGLISH_US</language>
   </versionInfo>
+
+  <messages>
+    <startupErr>An error occurred while starting the application.</startupErr>
+    <jreNotFoundErr>This application requires a Java Runtime Environment.</jreNotFoundErr>
+    <jreVersionErr>This application requires a Java Runtime Environment</jreVersionErr>
+    <launcherErr>The registry refers to a nonexistent Java Runtime Environment installation or the runtime is corrupted.</launcherErr>
+    <instanceAlreadyExistsMsg>An application instance is already running.</instanceAlreadyExistsMsg>
+  </messages>
+
 </launch4jConfig>
