@@ -4,10 +4,7 @@ import it.miketan.pb.serializer.helpers.YamlHelper;
 import it.miketan.pb.serializer.utils.FiltersUtil;
 import it.miketan.pb.serializer.utils.TooltipsUtil;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.text.Text;
@@ -15,7 +12,9 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 
@@ -59,19 +58,17 @@ non-sealed public class MainController implements IController {
     private TextField wpnScatterAngleMovingField;
     @FXML
     private TextField wpnSpeedField;
-    @FXML
-    private ImageView imageView;
 
     @FXML
     public void initialize() {
 
-        //Load the version from the properties file
+        //Load property values
         try (var inputStream = getClass().getClassLoader().getResourceAsStream("application.properties")) {
             if (inputStream != null) {
                 Properties properties = new Properties();
                 properties.load(inputStream);
 
-                //Strings for properties values
+                //Strings for property values
                 String versionValue = properties.getProperty("versionValue");
 
                 //Set the text to FXML
@@ -81,33 +78,30 @@ non-sealed public class MainController implements IController {
                 versionText.setText("Version: N/A");
             }
         } catch (IOException e) {
-            versionText.setText("Errore nel caricamento della versione");
+            e.printStackTrace();
         }
 
+        //Put K,V on a Hashmap and then iterate it for each field tooltip.
+        Map<TextField, String> tooltips = new HashMap<>();
+        tooltips.put(actCountField, "How many projectiles can fire each use.");
+        tooltips.put(actDurationField, "Duration of subsystem use in the timeline.");
+        tooltips.put(heatField, "Heat generated each use. More heat generated means it gets faster to overheat.");
+        tooltips.put(massField, "The weight of the subsystem. The higher, the heavier.");
+        tooltips.put(scrapValueField, "The value of the subsystem if scrapped either in battle or base inventory.");
+        tooltips.put(wpnConcussionField, "Concussion damage each projectile. Higher value means each projectile cause lots of concussion damage before neutralizing the enemy unit.");
+        tooltips.put(wpnDamageField, "Base damage each projectile. Higher value translates into high base damage.");
+        tooltips.put(wpnDamageRadiusField, "Damage radius. Higher radius may help in creating weapons based on AoE-style damage.");
+        tooltips.put(wpnImpactField, "Damage applied to environment (e.g. buildings, trees, etc.");
+        tooltips.put(wpnImpactRadiusField, "Impact radius. The higher, the wider impact value will be applied.");
+        tooltips.put(wpnProjLifeTimeField, "Projectile's lifespan before expiration, either by exploding or fading up.");
+        tooltips.put(wpnProjRicochetField, "Projectile ricochet. Higher value will increase the chance to ricochet when hitting the surface.");
+        tooltips.put(wpnRangeMaxField, "Subsystem maximum range. The higher, the far you can hit. Useful for ML and sniper rifles.");
+        tooltips.put(wpnRangeMinField, "Subsystem minimum range from which you can fire. Higher value means you can't hit at close range. Lowering the value is ideal for CQC firearms.");
+        tooltips.put(wpnScatterAngleField, "Projectile dispersion angle when firing in Idle (expressed in Angle degree). Higher value makes projectiles dispersed in a wider angle, good especially for shotguns.");
+        tooltips.put(wpnScatterAngleMovingField, "Projectile dispersion angle when moving (expressed in Angle degree).");
+        tooltips.put(wpnSpeedField, "Projectile speed. Higher value makes them travel very fast. Useful for railgun-style weapons for instance.");
 
-        //Initialize the tooltips and fill the fields with 0 as default value for each one of them.
-        TooltipsUtil.initializeTooltip(actCountField, "how many projectiles can fire each use.");
-        TooltipsUtil.initializeTooltip(actDurationField, "Duration of subsystem use in the timeline.");
-        TooltipsUtil.initializeTooltip(heatField, "Heat generated each use. More heat generated means it gets faster to overheat.");
-        TooltipsUtil.initializeTooltip(massField, "The weight of the subsystem. The higher, the heavier.");
-        TooltipsUtil.initializeTooltip(scrapValueField, "the value of the subsystem if scrapped either in battle or base inventory.");
-        TooltipsUtil.initializeTooltip(wpnConcussionField, "Concussion damage each projectile. Higher value means each projectile cause lots of concussion damage before neutralizing the enemy unit.");
-        TooltipsUtil.initializeTooltip(wpnDamageField, "Base damage each projectile. Higher value translates into high base damage.");
-        TooltipsUtil.initializeTooltip(wpnDamageRadiusField, "Damage radius. Higher radius may help in creating weapons based on AoE-style damage.");
-        TooltipsUtil.initializeTooltip(wpnImpactField, "Damage applied to environment (e.g. buildings, trees, etc.");
-        TooltipsUtil.initializeTooltip(wpnImpactRadiusField, "Impact radius. The higher, the wider impact value will be applied.");
-        TooltipsUtil.initializeTooltip(wpnProjLifeTimeField, "Projectile's lifespan before expiration, either by exploding or fading up.");
-        TooltipsUtil.initializeTooltip(wpnProjRicochetField, "Projectile ricochet. Higher value will increase the chance to ricochet when hitting the surface.");
-        TooltipsUtil.initializeTooltip(wpnRangeMaxField, "Subsystem maximum range. The higher, the far you can hit. Useful for ML and sniper rifles.");
-        TooltipsUtil.initializeTooltip(wpnRangeMinField, "Subsystem minimum range from which you can fire. Higher value means you can't hit at close range. Lowering the value is ideal for CQC firearms.");
-        TooltipsUtil.initializeTooltip(wpnScatterAngleField, "Projectile dispersion angle when firing in Idle (expressed in Angle degree). Higher value makes projectiles dispersed in a wider angle, good especially for shotguns.");
-        TooltipsUtil.initializeTooltip(wpnScatterAngleMovingField, "Projectile dispersion angle when moving (expressed in Angle degree).");
-        TooltipsUtil.initializeTooltip(wpnSpeedField, "Projectile speed. Higher value makes them travel very fast. Useful for railgun-style weapons for instance.");
-    }
-
-    protected void displayImage() {
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("pb_logo.png")));
-        imageView.setImage(image);
+        tooltips.forEach(TooltipsUtil::initializeTooltip);
     }
 
     @FXML
@@ -144,7 +138,7 @@ non-sealed public class MainController implements IController {
     }
 
     @FXML
-    protected void copyToClipboard() {
+    protected void copyToClipboard() throws NumberFormatException {
         Clipboard clipboard = Clipboard.getSystemClipboard();
         ClipboardContent clipboardContent = new ClipboardContent();
         //Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -161,23 +155,15 @@ non-sealed public class MainController implements IController {
 
     @FXML
     protected void onInput() {
-        FiltersUtil.addDigitFilter(actCountField);
-        FiltersUtil.addDigitFilter(actDurationField);
-        FiltersUtil.addDigitFilter(heatField);
-        FiltersUtil.addDigitFilter(massField);
-        FiltersUtil.addDigitFilter(scrapValueField);
-        FiltersUtil.addDigitFilter(wpnConcussionField);
-        FiltersUtil.addDigitFilter(wpnDamageField);
-        FiltersUtil.addDigitFilter(wpnDamageRadiusField);
-        FiltersUtil.addDigitFilter(wpnImpactField);
-        FiltersUtil.addDigitFilter(wpnImpactRadiusField);
-        FiltersUtil.addDigitFilter(wpnProjLifeTimeField);
-        FiltersUtil.addDigitFilter(wpnProjRicochetField);
-        FiltersUtil.addDigitFilter(wpnRangeMaxField);
-        FiltersUtil.addDigitFilter(wpnRangeMinField);
-        FiltersUtil.addDigitFilter(wpnScatterAngleField);
-        FiltersUtil.addDigitFilter(wpnScatterAngleMovingField);
-        FiltersUtil.addDigitFilter(wpnSpeedField);
-    }
 
+        List<TextField> textFields = List.of(
+                actCountField, actDurationField, heatField, massField, scrapValueField,
+                wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
+                wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
+                wpnRangeMaxField, wpnRangeMinField, wpnScatterAngleField,
+                wpnScatterAngleMovingField, wpnSpeedField
+        );
+
+        textFields.forEach(FiltersUtil::addDigitFilter);
+    }
 }
