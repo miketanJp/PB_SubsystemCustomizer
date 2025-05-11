@@ -12,6 +12,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * YamlHelper is a utility class for YAML-related operations.
+ * It provides methods to load, export, copy YAML data to the clipboard and so on.
+ *
+ * @author Michele Paolucci (Miketan)
+ * @version 1.1.0
+ */
 public class YamlHelper {
 
     private static Map<String, Object> createYamlNesting(Integer value) {
@@ -24,7 +31,7 @@ public class YamlHelper {
         return nestedValue;
     }
 
-    public static void load (File file, TextField actCountField, TextField actDurationField, TextField heatField, TextField massField, TextField scrapValueField,
+    public static void load(File file, TextField actCountField, TextField actDurationField, TextField heatField, TextField massField, TextField scrapValueField,
                             TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
                             TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
                             TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
