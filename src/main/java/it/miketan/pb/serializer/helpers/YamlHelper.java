@@ -24,11 +24,11 @@ public class YamlHelper {
         return nestedValue;
     }
 
-    public static void loadYaml(File file, TextField actCountField, TextField actDurationField, TextField heatField, TextField massField, TextField scrapValueField,
-                                TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
-                                TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
-                                TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
-                                TextField wpnScatterAngleMovingField, TextField wpnSpeedField, Text hiddenText) throws NumberFormatException {
+    public static void load (File file, TextField actCountField, TextField actDurationField, TextField heatField, TextField massField, TextField scrapValueField,
+                            TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
+                            TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
+                            TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
+                            TextField wpnScatterAngleMovingField, TextField wpnSpeedField, Text hiddenText) throws NumberFormatException {
 
         try (InputStream input = new FileInputStream(file)) {
             Yaml yaml = new Yaml();
@@ -170,11 +170,11 @@ public class YamlHelper {
 
     }
 
-    public static void saveYaml(File file, TextField actCountField, TextField actDurationField, TextField heatField, TextField massField, TextField scrapValueField,
-                                TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
-                                TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
-                                TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
-                                TextField wpnScatterAngleMovingField, TextField wpnSpeedField, Text hiddenText) throws NumberFormatException {
+    public static void export(File file, TextField actCountField, TextField actDurationField, TextField heatField, TextField massField, TextField scrapValueField,
+                              TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
+                              TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
+                              TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
+                              TextField wpnScatterAngleMovingField, TextField wpnSpeedField, Text hiddenText) throws NumberFormatException {
 
         //DumperOption controls YAML indentation Style
         DumperOptions dumperOptions = new DumperOptions();
@@ -228,10 +228,10 @@ public class YamlHelper {
     }
 
     public static void fieldsToClipboard(Clipboard clipboard, ClipboardContent clipboardContent, TextField actCountField, TextField actDurationField, TextField heatField, TextField massField, TextField scrapValueField,
-                                          TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
-                                          TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
-                                          TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
-                                          TextField wpnScatterAngleMovingField, TextField wpnSpeedField, Text hiddenText) throws NumberFormatException {
+                                         TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
+                                         TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
+                                         TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
+                                         TextField wpnScatterAngleMovingField, TextField wpnSpeedField, Text hiddenText) throws NumberFormatException {
 
         // DumperOption controls YAML indentation Style
         DumperOptions dumperOptions = new DumperOptions();
@@ -271,7 +271,7 @@ public class YamlHelper {
     }
 
     // Utility method to parse the field value. It prevents NumberFormatException from happening if one or more fields are empty.
-    private static Integer parseField (TextField field) {
+    private static Integer parseField(TextField field) {
 
         if (field.getText().isBlank() || field.getText().isEmpty()) {
             return 0;

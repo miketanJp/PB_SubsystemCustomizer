@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -18,7 +19,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main-view.fxml"));
+
+        // Loading application.properties
+        ResourceBundle bundle = ResourceBundle.getBundle("application");
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/it/miketan/pb/serializer/main-view.fxml"), bundle);
         Scene scene = new Scene(fxmlLoader.load(), 800, 830);
         stage.setTitle("PB Subsystem Customizer");
         stage.setResizable(false);

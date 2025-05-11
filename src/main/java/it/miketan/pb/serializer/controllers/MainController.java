@@ -15,13 +15,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 
 non-sealed public class MainController implements IController {
 
-    @FXML
-    private Text versionText;
     @FXML
     private Text hiddenText;
     @FXML
@@ -62,25 +59,6 @@ non-sealed public class MainController implements IController {
     @FXML
     public void initialize() {
 
-        //Load property values
-        try (var inputStream = getClass().getClassLoader().getResourceAsStream("application.properties")) {
-            if (inputStream != null) {
-                Properties properties = new Properties();
-                properties.load(inputStream);
-
-                //Strings for property values
-                String versionValue = properties.getProperty("versionValue");
-
-                //Set the text to FXML
-                versionText.setText("v" + versionValue);
-
-            } else {
-                versionText.setText("Version: N/A");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         //Put K,V on a Hashmap and then iterate it for each field tooltip.
         Map<TextField, String> tooltips = new HashMap<>();
         tooltips.put(actCountField, "How many projectiles can fire each use.");
@@ -112,7 +90,7 @@ non-sealed public class MainController implements IController {
         File file = fc.showOpenDialog(null);
 
         if (file != null) {
-            YamlHelper.loadYaml(file, actCountField, actDurationField, heatField, massField, scrapValueField,
+            YamlHelper.load(file, actCountField, actDurationField, heatField, massField, scrapValueField,
                     wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
                     wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
                     wpnRangeMaxField, wpnRangeMinField, wpnScatterAngleField,
@@ -129,7 +107,7 @@ non-sealed public class MainController implements IController {
         File file = fc.showSaveDialog(null);
 
         if (file != null) {
-            YamlHelper.saveYaml(file, actCountField, actDurationField, heatField, massField, scrapValueField,
+            YamlHelper.export(file, actCountField, actDurationField, heatField, massField, scrapValueField,
                     wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
                     wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
                     wpnRangeMaxField, wpnRangeMinField, wpnScatterAngleField,
