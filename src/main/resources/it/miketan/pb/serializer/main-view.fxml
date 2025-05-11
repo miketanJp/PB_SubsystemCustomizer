@@ -13,103 +13,103 @@
     </padding>
 
     <HBox alignment="CENTER">
-        <ImageView fx:id="imageView" fitHeight="200" fitWidth="200" layoutX="10" layoutY="10">
-            <Image url="@pb_logo.png"/>
+        <ImageView fitHeight="200" fitWidth="200" layoutX="10" layoutY="10">
+            <Image url="@../../../../assets/pb_logo_alt.png"/>
         </ImageView>
     </HBox>
     <HBox alignment="BASELINE_CENTER">
-        <Text>Subsystem Customizer</Text>
+        <Text text="%versionValue"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Projectile magazine</Text>
+        <Text text="%actCount"/>
         <TextField fx:id="actCountField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Fire time length</Text>
+        <Text text="%actDuration"/>
         <TextField fx:id="actDurationField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Heat per use</Text>
+        <Text text="%heat"/>
         <TextField fx:id="heatField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon Mass</Text>
+        <Text text="%mass"/>
         <TextField fx:id="massField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Scrap value</Text>
+        <Text text="%scrapValue"/>
         <TextField fx:id="scrapValueField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon concussion</Text>
+        <Text text="%wpnConcussion"/>
         <TextField fx:id="wpnConcussionField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon damage</Text>
+        <Text text="%wpnDamage"/>
         <TextField fx:id="wpnDamageField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon Damage Radius</Text>
+        <Text text="%wpnDamageRadius"/>
         <TextField fx:id="wpnDamageRadiusField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon Impact</Text>
+        <Text text="%wpnImpact"/>
         <TextField fx:id="wpnImpactField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon Impact Radius</Text>
+        <Text text="%wpnImpactRadius"/>
         <TextField fx:id="wpnImpactRadiusField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon Projectile Lifetime</Text>
+        <Text text="%wpnProjLifeTime"/>
         <TextField fx:id="wpnProjLifeTimeField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon Projectile Ricochet</Text>
+        <Text text="%wpnProjRicochet"/>
         <TextField fx:id="wpnProjRicochetField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon Range (max)</Text>
+        <Text text="%wpnRangeMax"/>
         <TextField fx:id="wpnRangeMaxField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon Range (min)</Text>
+        <Text text="%wpnRangeMin"/>
         <TextField fx:id="wpnRangeMinField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon Scatter Angle</Text>
+        <Text text="%wpnScatterAngle"/>
         <TextField fx:id="wpnScatterAngleField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Weapon Scatter Angle (Moving)</Text>
+        <Text text="%wpnScatterAngleMoving"/>
         <TextField fx:id="wpnScatterAngleMovingField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10">
-        <Text>Projectile Speed</Text>
+        <Text text="%wpnSpeed"/>
         <TextField fx:id="wpnSpeedField" maxWidth="80" onKeyPressed="#onInput"/>
     </HBox>
 
     <HBox spacing="10" alignment="CENTER">
-        <Button text="Save" onAction="#onSaveBtnClick"/>
-        <Button text="Import" onAction="#onLoadBtnClick"/>
-        <Button text="Copy to clipboard" onAction="#copyToClipboard"/>
+        <Button text="%save" onAction="#onSaveBtnClick"/>
+        <Button text="%import" onAction="#onLoadBtnClick"/>
+        <Button text="%copyToClip" onAction="#copyToClipboard"/>
     </HBox>
 
     <HBox spacing="10" alignment="CENTER">
@@ -117,6 +117,6 @@
     </HBox>
 
     <HBox alignment="BOTTOM_CENTER">
-        <Text>©2025 Michele Paolucci A.K.A. MiketanJp - Software under BSD-3 License</Text>
+        <Text text="%copyrightText"/>
     </HBox>
 </VBox>

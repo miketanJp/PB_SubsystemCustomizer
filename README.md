@@ -1,10 +1,10 @@
 # Phantom Brigade<br>Subsystem Customizer Tool
 
 **Author:** Michele Paolucci A.K.A. MiketanJp<br>
-**Version:** 1.0.0 (2025-05-06)<br>
+**Version:** 1.1.0 (TBD)<br>
 **Programming language:** Java Development Kit v17.0.14 (Liberica JDK)<br>
-**Framework(s) used:** JavaFX SDK v17.0.14, Snakeyaml v2.2<br>
-**Requirements**: Java Runtime Environment (JRE) - last available version reccommended (v8u451)<br>
+**Framework(s) used:** JavaFX SDK v21.0.5, Snakeyaml v2.2<br>
+**Requirements**: JRE 21.0.5 (please install JDK 21.0.5 to run it; required JRE is embedded with JDK)<br>
 **License:** BSD-3 Clause<br>
 
 ## Tool description 
@@ -131,12 +131,12 @@ stats:
     targetSocket: ''
     targetHardpoint: ''
 ```
-With the exception of `value` field, all the fields are set to `0` and `' '` by default and can eventually be changed from the user if needed. `targetMode`, `targetSocket` and `targetHardpoint` fields are not used in this tool, but they are required to respect the YAML structure. The serializer will always set them to 0 and empty string respectively as there are no important values to be set. The user can edit them manually outside the tool if possesses the required knowledge about editing said fields.
+Except `value` field, all the fields are set to `0` and `' '` by default and can eventually be changed from the user if needed. `targetMode`, `targetSocket` and `targetHardpoint` fields are not used in this tool, but they are required to respect the YAML structure. The serializer will always set them to 0 and empty string respectively as there are no important values to be set. The user can edit them manually outside the tool if possesses the required knowledge about editing said fields.
 `stats` is the main block that contains all the nested field inside of it and must remain empty. On back-end, the serializer will handle each field and nesting with `HashMap` for the YAML structure to be created correctly in terms of _Key-value pairs_.<br>
 **Note:** in order for the serializer to work correctly on the Import feature, the file must respect the above mentioned structure and indentation. The tool may not be able to load the file if the indentation is not correct.
 
 ## Tool installation / Development setup ⚙️
-The project is developed using **Java Development Kit v17.0.14 (Liberica JDK)** and **JavaFX SDK v17.0.14**. It is highly recommended to import the project with IntelliJ IDEA (Community Edition) to avoid issues and/or errors upon import.<br>
+The project is developed using **Java Development Kit v21.0.5** and **JavaFX SDK v17.0.14**. It is highly recommended to import the project with IntelliJ IDEA (Community Edition) to avoid issues and/or errors upon import.<br>
 
 To compile the application, it is crucial to download **OpenJFX SDK v17.0.14** and configured in the project, as JavaFX is no more bundled starting from **JDK 11** onward. You can download Javafx SDK from [JavaFX SDK website](https://gluonhq.com/products/javafx/).<br>
 
@@ -153,6 +153,15 @@ To create a functional windows application (.exe) of this tool, you need to use 
 <br>Make sure to point to the JDK and JavaFX folder correctly, otherwise the executable will not work. The output file will be created in the target folder (the same as the compiled JAR file). The Launch4j configuration file has only relative paths for obvious reasons, as well as giving the developer hints about which path to tweak.<br>
 
 ### Running the tool
-To run the compiled executable, you need to have the JRE installed on your system. You can download it from [Java SE website](https://www.oracle.com/java/technologies/javase-jre8-downloads.html).
-**Java Development Kit** is OK as well but not required (and in the worst case, the tool will ask you to download JRE instead)<br>
+To run the compiled executable, you need to have the JRE installed on your system. <br>
+**Java Development Kit** is required to have the compatible JRE the tool requires.
 
+If you install JDK for the first time, please check if related JRE is installed as well.
+Once set up on your system, check it by launching the following command in your terminal:<br>
+
+`java --version`<br>
+
+The terminal will then output the installed version on your system (pointed up on %JAVA_HOME% system variable). The output will then return something like this:<br>
+`Java(TM) SE Runtime Environment (build 17.0.15)`
+
+if you see the above output, it means JRE is installed and you can safely run the tool.
