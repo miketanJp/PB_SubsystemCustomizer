@@ -43,7 +43,7 @@ public class YamlHelper {
                         String nestedFieldName = nestedEntry.getKey();
                         Object nestedValue = nestedEntry.getValue();
 
-                            /* COMMENTED FOR PERFORMANCE: UNCOMMENT TO DEBUG
+                            /* UNCOMMENT TO DEBUG
                             if (nestedFieldName != null) {
                                 System.out.println("Value detected");
                                 System.out.println("Nested Field Name: " + nestedFieldName);
@@ -157,7 +157,7 @@ public class YamlHelper {
                             }
                         }
                         // UNCOMMENT TO DEBUG.
-                        //System.out.println("Nested Value: " + nestedValue);
+                        // System.out.println("Nested Value: " + nestedValue);
                     }
                 }
             }
@@ -190,23 +190,23 @@ public class YamlHelper {
 
         Map<String, Object> statsRoot = new LinkedHashMap<>();
         Map<String, Object> nestedStats = new LinkedHashMap<>();
-        nestedStats.put("act_count", createYamlNesting(Integer.parseInt(actCountField.getText().isBlank() ? "0" : actCountField.getText())));
-        nestedStats.put("act_duration", createYamlNesting(Integer.parseInt(actDurationField.getText().isBlank() ? "0" : actDurationField.getText())));
-        nestedStats.put("act_heat", createYamlNesting(Integer.parseInt(heatField.getText().isBlank() ? "0" : heatField.getText())));
-        nestedStats.put("mass", createYamlNesting(Integer.parseInt(massField.getText().isBlank() ? "0" : massField.getText())));
-        nestedStats.put("scrap_value", createYamlNesting(Integer.parseInt(scrapValueField.getText().isBlank() ? "0" : scrapValueField.getText())));
-        nestedStats.put("wpn_concussion", createYamlNesting(Integer.parseInt(wpnConcussionField.getText().isBlank() ? "0" : wpnConcussionField.getText())));
-        nestedStats.put("wpn_damage", createYamlNesting(Integer.parseInt(wpnDamageField.getText().isBlank() ? "0" : wpnDamageField.getText())));
-        nestedStats.put("wpn_damage_radius", createYamlNesting(Integer.parseInt(wpnDamageRadiusField.getText().isBlank() ? "0" : wpnDamageRadiusField.getText())));
-        nestedStats.put("wpn_impact", createYamlNesting(Integer.parseInt(wpnImpactField.getText().isBlank() ? "0" : wpnImpactField.getText())));
-        nestedStats.put("wpn_impact_radius", createYamlNesting(Integer.parseInt(wpnImpactRadiusField.getText().isBlank() ? "0" : wpnImpactRadiusField.getText())));
-        nestedStats.put("wpn_proj_lifetime", createYamlNesting(Integer.parseInt(wpnProjLifeTimeField.getText().isBlank() ? "0" : wpnProjLifeTimeField.getText())));
-        nestedStats.put("wpn_proj_ricochet", createYamlNesting(Integer.parseInt(wpnProjRicochetField.getText().isBlank() ? "0" : wpnProjRicochetField.getText())));
-        nestedStats.put("wpn_range_max", createYamlNesting(Integer.parseInt(wpnRangeMaxField.getText().isBlank() ? "0" : wpnRangeMaxField.getText())));
-        nestedStats.put("wpn_range_min", createYamlNesting(Integer.parseInt(wpnRangeMinField.getText().isBlank() ? "0" : wpnRangeMinField.getText())));
-        nestedStats.put("wpn_scatter_angle", createYamlNesting(Integer.parseInt(wpnScatterAngleField.getText().isBlank() ? "0" : wpnScatterAngleField.getText())));
-        nestedStats.put("wpn_scatter_angle_moving", createYamlNesting(Integer.parseInt(wpnScatterAngleMovingField.getText().isBlank() ? "0" : wpnScatterAngleMovingField.getText())));
-        nestedStats.put("wpn_speed", createYamlNesting(Integer.parseInt(wpnSpeedField.getText().isBlank() ? "0" : wpnSpeedField.getText())));
+        nestedStats.put("act_count", createYamlNesting(parseField(actCountField)));
+        nestedStats.put("act_duration", createYamlNesting(parseField(actDurationField)));
+        nestedStats.put("act_heat", createYamlNesting(parseField(heatField)));
+        nestedStats.put("mass", createYamlNesting(parseField(massField)));
+        nestedStats.put("scrap_value", createYamlNesting(parseField(scrapValueField)));
+        nestedStats.put("wpn_concussion", createYamlNesting(parseField(wpnConcussionField)));
+        nestedStats.put("wpn_damage", createYamlNesting(parseField(wpnDamageField)));
+        nestedStats.put("wpn_damage_radius", createYamlNesting(parseField(wpnDamageRadiusField)));
+        nestedStats.put("wpn_impact", createYamlNesting(parseField(wpnImpactField)));
+        nestedStats.put("wpn_impact_radius", createYamlNesting(parseField(wpnImpactRadiusField)));
+        nestedStats.put("wpn_proj_lifetime", createYamlNesting(parseField(wpnProjLifeTimeField)));
+        nestedStats.put("wpn_proj_ricochet", createYamlNesting(parseField(wpnProjRicochetField)));
+        nestedStats.put("wpn_range_max", createYamlNesting(parseField(wpnRangeMaxField)));
+        nestedStats.put("wpn_range_min", createYamlNesting(parseField(wpnRangeMinField)));
+        nestedStats.put("wpn_scatter_angle", createYamlNesting(parseField(wpnScatterAngleField)));
+        nestedStats.put("wpn_scatter_angle_moving", createYamlNesting(parseField(wpnScatterAngleMovingField)));
+        nestedStats.put("wpn_speed", createYamlNesting(parseField(wpnSpeedField)));
 
         nestedTags.put("tags", "");
         nestedStatDistribution.put("statDistribution", "");
@@ -220,61 +220,64 @@ public class YamlHelper {
             e.printStackTrace();
         }
 
-        System.out.println(STR."created: \{file}.yaml");
+        // UNCOMMENT TO DEBUG
+        // System.out.println(STR."created: \{file}.yaml");
 
         hiddenText.setVisible(true);
         hiddenText.setText("File saved successfully.");
     }
 
     public static void fieldsToClipboard(Clipboard clipboard, ClipboardContent clipboardContent, TextField actCountField, TextField actDurationField, TextField heatField, TextField massField, TextField scrapValueField,
-                                         TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
-                                         TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
-                                         TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
-                                         TextField wpnScatterAngleMovingField, TextField wpnSpeedField, Text hiddenText) throws NumberFormatException {
+                                          TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
+                                          TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
+                                          TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
+                                          TextField wpnScatterAngleMovingField, TextField wpnSpeedField, Text hiddenText) throws NumberFormatException {
 
-        //DumperOption controls YAML indentation Style
+        // DumperOption controls YAML indentation Style
         DumperOptions dumperOptions = new DumperOptions();
         dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         dumperOptions.setPrettyFlow(true);
         Yaml yaml = new Yaml(dumperOptions);
 
-        Map<String, Object> tagsRoot = new LinkedHashMap<>();
-        Map<String, Object> nestedTags = new LinkedHashMap<>();
-
-        Map<String, Object> statDistributionRoot = new LinkedHashMap<>();
-        Map<String, Object> nestedStatDistribution = new LinkedHashMap<>();
-
+        // Yaml structure creation.
         Map<String, Object> statsRoot = new LinkedHashMap<>();
         Map<String, Object> nestedStats = new LinkedHashMap<>();
 
-        nestedStats.put("act_count", createYamlNesting(Integer.parseInt(actCountField.getText().isBlank() ? "0" : actCountField.getText())));
-        nestedStats.put("act_duration", createYamlNesting(Integer.parseInt(actDurationField.getText().isBlank() ? "0" : actDurationField.getText())));
-        nestedStats.put("act_heat", createYamlNesting(Integer.parseInt(heatField.getText().isBlank() ? "0" : heatField.getText())));
-        nestedStats.put("mass", createYamlNesting(Integer.parseInt(massField.getText().isBlank() ? "0" : massField.getText())));
-        nestedStats.put("scrap_value", createYamlNesting(Integer.parseInt(scrapValueField.getText().isBlank() ? "0" : scrapValueField.getText())));
-        nestedStats.put("wpn_concussion", createYamlNesting(Integer.parseInt(wpnConcussionField.getText().isBlank() ? "0" : wpnConcussionField.getText())));
-        nestedStats.put("wpn_damage", createYamlNesting(Integer.parseInt(wpnDamageField.getText().isBlank() ? "0" : wpnDamageField.getText())));
-        nestedStats.put("wpn_damage_radius", createYamlNesting(Integer.parseInt(wpnDamageRadiusField.getText().isBlank() ? "0" : wpnDamageRadiusField.getText())));
-        nestedStats.put("wpn_impact", createYamlNesting(Integer.parseInt(wpnImpactField.getText().isBlank() ? "0" : wpnImpactField.getText())));
-        nestedStats.put("wpn_impact_radius", createYamlNesting(Integer.parseInt(wpnImpactRadiusField.getText().isBlank() ? "0" : wpnImpactRadiusField.getText())));
-        nestedStats.put("wpn_proj_lifetime", createYamlNesting(Integer.parseInt(wpnProjLifeTimeField.getText().isBlank() ? "0" : wpnProjLifeTimeField.getText())));
-        nestedStats.put("wpn_proj_ricochet", createYamlNesting(Integer.parseInt(wpnProjRicochetField.getText().isBlank() ? "0" : wpnProjRicochetField.getText())));
-        nestedStats.put("wpn_range_max", createYamlNesting(Integer.parseInt(wpnRangeMaxField.getText().isBlank() ? "0" : wpnRangeMaxField.getText())));
-        nestedStats.put("wpn_range_min", createYamlNesting(Integer.parseInt(wpnRangeMinField.getText().isBlank() ? "0" : wpnRangeMinField.getText())));
-        nestedStats.put("wpn_scatter_angle", createYamlNesting(Integer.parseInt(wpnScatterAngleField.getText().isBlank() ? "0" : wpnScatterAngleField.getText())));
-        nestedStats.put("wpn_scatter_angle_moving", createYamlNesting(Integer.parseInt(wpnScatterAngleMovingField.getText().isBlank() ? "0" : wpnScatterAngleMovingField.getText())));
-        nestedStats.put("wpn_speed", createYamlNesting(Integer.parseInt(wpnSpeedField.getText().isBlank() ? "0" : wpnSpeedField.getText())));
+        nestedStats.put("act_count", createYamlNesting(parseField(actCountField)));
+        nestedStats.put("act_duration", createYamlNesting(parseField(actDurationField)));
+        nestedStats.put("act_heat", createYamlNesting(parseField(heatField)));
+        nestedStats.put("mass", createYamlNesting(parseField(massField)));
+        nestedStats.put("scrap_value", createYamlNesting(parseField(scrapValueField)));
+        nestedStats.put("wpn_concussion", createYamlNesting(parseField(wpnConcussionField)));
+        nestedStats.put("wpn_damage", createYamlNesting(parseField(wpnDamageField)));
+        nestedStats.put("wpn_damage_radius", createYamlNesting(parseField(wpnDamageRadiusField)));
+        nestedStats.put("wpn_impact", createYamlNesting(parseField(wpnImpactField)));
+        nestedStats.put("wpn_impact_radius", createYamlNesting(parseField(wpnImpactRadiusField)));
+        nestedStats.put("wpn_proj_lifetime", createYamlNesting(parseField(wpnProjLifeTimeField)));
+        nestedStats.put("wpn_proj_ricochet", createYamlNesting(parseField(wpnProjRicochetField)));
+        nestedStats.put("wpn_range_max", createYamlNesting(parseField(wpnRangeMaxField)));
+        nestedStats.put("wpn_range_min", createYamlNesting(parseField(wpnRangeMinField)));
+        nestedStats.put("wpn_scatter_angle", createYamlNesting(parseField(wpnScatterAngleField)));
+        nestedStats.put("wpn_scatter_angle_moving", createYamlNesting(parseField(wpnScatterAngleMovingField)));
+        nestedStats.put("wpn_speed", createYamlNesting(parseField(wpnSpeedField)));
 
-        nestedTags.put("tags", "");
-        nestedStatDistribution.put("statDistribution", "");
         statsRoot.put("stats", nestedStats);
 
         clipboardContent.putString(yaml.dump(statsRoot));
-
         clipboard.setContent(clipboardContent);
 
         hiddenText.setVisible(true);
         hiddenText.setText("Copied successfully to clipboard.");
+    }
+
+    // Utility method to parse the field value. It prevents NumberFormatException from happening if one or more fields are empty.
+    private static Integer parseField (TextField field) {
+
+        if (field.getText().isBlank() || field.getText().isEmpty()) {
+            return 0;
+        } else {
+            return Integer.parseInt(field.getText());
+        }
 
     }
 }
