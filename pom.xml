@@ -6,7 +6,7 @@
 
     <groupId>it.miketan.pb.serializer</groupId>
     <artifactId>PB_SubsystemCustomizer</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <name>PB_SubsystemCustomizer</name>
 
     <properties>
@@ -15,7 +15,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -77,7 +76,6 @@
             <artifactId>snakeyaml</artifactId>
             <version>2.2</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -169,9 +167,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
-
-
     </build>
 </project>

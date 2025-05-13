@@ -1,5 +1,6 @@
 package it.miketan.pb.serializer.utils;
 
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 
@@ -15,5 +16,10 @@ public class TooltipsUtil {
         textfield.setText("0");
         Tooltip tooltip = new Tooltip(s);
         Tooltip.install(textfield, tooltip);
+    }
+
+    public static void initializeChkTooltip(CheckBox chk, String s) {
+        Tooltip tooltip = new Tooltip(s);
+        Tooltip.install(chk, tooltip);
     }
 }

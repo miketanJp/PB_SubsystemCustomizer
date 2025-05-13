@@ -4,6 +4,8 @@ import it.miketan.pb.serializer.helpers.YamlHelper;
 import it.miketan.pb.serializer.utils.FiltersUtil;
 import it.miketan.pb.serializer.utils.TooltipsUtil;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -19,8 +21,17 @@ import java.util.Map;
 
 non-sealed public class MainController implements IController {
 
+    //Group containers for stat types
+    public Group basicStats;
+    public Group railgunStats;
+
+    //stats-unrelated fields
     @FXML
     private Text hiddenText;
+    @FXML
+    public CheckBox railgunStatschk;
+
+    //Basic stats fields
     @FXML
     private TextField actCountField;
     @FXML
@@ -56,28 +67,56 @@ non-sealed public class MainController implements IController {
     @FXML
     private TextField wpnSpeedField;
 
+    //Railgun-related stats fields
+    @FXML
+    private TextField penetrationChargesField;
+    @FXML
+    private TextField penetrationDamageKField;
+    @FXML
+    private TextField penetrationGeomCostField;
+    @FXML
+    private TextField penetrationUnitCostField;
+
     @FXML
     public void initialize() {
 
-        //Put K,V on a Hashmap and then iterate it for each field tooltip.
         Map<TextField, String> tooltips = new HashMap<>();
-        tooltips.put(actCountField, "How many projectiles can fire each use.");
-        tooltips.put(actDurationField, "Duration of subsystem use in the timeline.");
-        tooltips.put(heatField, "Heat generated each use. More heat generated means it gets faster to overheat.");
-        tooltips.put(massField, "The weight of the subsystem. The higher, the heavier.");
-        tooltips.put(scrapValueField, "The value of the subsystem if scrapped either in battle or base inventory.");
-        tooltips.put(wpnConcussionField, "Concussion damage each projectile. Higher value means each projectile cause lots of concussion damage before neutralizing the enemy unit.");
-        tooltips.put(wpnDamageField, "Base damage each projectile. Higher value translates into high base damage.");
-        tooltips.put(wpnDamageRadiusField, "Damage radius. Higher radius may help in creating weapons based on AoE-style damage.");
-        tooltips.put(wpnImpactField, "Damage applied to environment (e.g. buildings, trees, etc.");
-        tooltips.put(wpnImpactRadiusField, "Impact radius. The higher, the wider impact value will be applied.");
-        tooltips.put(wpnProjLifeTimeField, "Projectile's lifespan before expiration, either by exploding or fading up.");
-        tooltips.put(wpnProjRicochetField, "Projectile ricochet. Higher value will increase the chance to ricochet when hitting the surface.");
-        tooltips.put(wpnRangeMaxField, "Subsystem maximum range. The higher, the far you can hit. Useful for ML and sniper rifles.");
-        tooltips.put(wpnRangeMinField, "Subsystem minimum range from which you can fire. Higher value means you can't hit at close range. Lowering the value is ideal for CQC firearms.");
-        tooltips.put(wpnScatterAngleField, "Projectile dispersion angle when firing in Idle (expressed in Angle degree). Higher value makes projectiles dispersed in a wider angle, good especially for shotguns.");
-        tooltips.put(wpnScatterAngleMovingField, "Projectile dispersion angle when moving (expressed in Angle degree).");
-        tooltips.put(wpnSpeedField, "Projectile speed. Higher value makes them travel very fast. Useful for railgun-style weapons for instance.");
+
+        //Put K,V on a Hashmap and then iterate it for each field tooltip.
+        if (basicStats.isVisible()) {
+            tooltips.put(actCountField, "How many projectiles can fire each use.");
+            tooltips.put(actDurationField, "Duration of subsystem use in the timeline.");
+            tooltips.put(heatField, "Heat generated each use. More heat generated means it gets faster to overheat.");
+            tooltips.put(massField, "The weight of the subsystem. The higher, the heavier.");
+            tooltips.put(scrapValueField, "The value of the subsystem if scrapped either in battle or base inventory.");
+            tooltips.put(wpnConcussionField, "Concussion damage each projectile. Higher value means each projectile cause lots of concussion damage before neutralizing the enemy unit.");
+            tooltips.put(wpnDamageField, "Base damage each projectile. Higher value translates into high base damage.");
+            tooltips.put(wpnDamageRadiusField, "Damage radius. Higher radius may help in creating weapons based on AoE-style damage.");
+            tooltips.put(wpnImpactField, "Damage applied to environment (e.g. buildings, trees, etc.");
+            tooltips.put(wpnImpactRadiusField, "Impact radius. The higher, the wider impact value will be applied.");
+            tooltips.put(wpnProjLifeTimeField, "Projectile's lifespan before expiration, either by exploding or fading up.");
+            tooltips.put(wpnProjRicochetField, "Projectile ricochet. Higher value will increase the chance to ricochet when hitting the surface.");
+            tooltips.put(wpnRangeMaxField, "Subsystem maximum range. The higher, the far you can hit. Useful for ML and sniper rifles.");
+            tooltips.put(wpnRangeMinField, "Subsystem minimum range from which you can fire. Higher value means you can't hit at close range. Lowering the value is ideal for CQC firearms.");
+            tooltips.put(wpnScatterAngleField, "Projectile dispersion angle when firing in Idle (expressed in Angle degree). Higher value makes projectiles dispersed in a wider angle, good especially for shotguns.");
+            tooltips.put(wpnScatterAngleMovingField, "Projectile dispersion angle when moving (expressed in Angle degree).");
+            tooltips.put(wpnSpeedField, "Projectile speed. Higher value makes them travel very fast. Useful for railgun-style weapons for instance.");
+        }
+
+        //Tooltips for checkboxes
+        if (railgunStatschk.isPressed() || railgunStats.isVisible()) {
+            Map<CheckBox, String> chkTooltips = new HashMap<>();
+            chkTooltips.put(railgunStatschk, "If checked, the railgun stats will be visible and exposed for export.");
+            chkTooltips.forEach(TooltipsUtil::initializeChkTooltip);
+        }
+
+        //Railgun-related stats
+        if (railgunStats.isVisible()) {
+            tooltips.put(penetrationChargesField, "Penetration charges. Higher value means more charges are needed to penetrate the armor.");
+            tooltips.put(penetrationDamageKField, "Penetration damage K. Higher value means more damage is needed to penetrate the armor.");
+            tooltips.put(penetrationGeomCostField, "Penetration geometry cost. Higher value means more geometry is needed to penetrate the armor.");
+            tooltips.put(penetrationUnitCostField, "Penetration unit cost. Higher value means more units are needed to penetrate the armor.");
+        }
 
         tooltips.forEach(TooltipsUtil::initializeTooltip);
     }
@@ -94,7 +133,8 @@ non-sealed public class MainController implements IController {
                     wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
                     wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
                     wpnRangeMaxField, wpnRangeMinField, wpnScatterAngleField,
-                    wpnScatterAngleMovingField, wpnSpeedField, hiddenText);
+                    wpnScatterAngleMovingField, wpnSpeedField, penetrationChargesField,
+                    penetrationDamageKField, penetrationGeomCostField, penetrationUnitCostField, railgunStats, hiddenText);
         }
     }
 
@@ -111,7 +151,8 @@ non-sealed public class MainController implements IController {
                     wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
                     wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
                     wpnRangeMaxField, wpnRangeMinField, wpnScatterAngleField,
-                    wpnScatterAngleMovingField, wpnSpeedField, hiddenText);
+                    wpnScatterAngleMovingField, wpnSpeedField, penetrationChargesField,
+                    penetrationDamageKField, penetrationGeomCostField, penetrationUnitCostField, railgunStats, hiddenText);
         }
     }
 
@@ -127,7 +168,8 @@ non-sealed public class MainController implements IController {
                     wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
                     wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
                     wpnRangeMaxField, wpnRangeMinField, wpnScatterAngleField,
-                    wpnScatterAngleMovingField, wpnSpeedField, hiddenText);
+                    wpnScatterAngleMovingField, wpnSpeedField, penetrationChargesField,
+                    penetrationDamageKField, penetrationGeomCostField, penetrationUnitCostField, railgunStats, hiddenText);
         }
     }
 
@@ -143,5 +185,18 @@ non-sealed public class MainController implements IController {
         );
 
         textFields.forEach(FiltersUtil::addDigitFilter);
+    }
+
+    public void onClickChk() {
+
+        //If the checkbox is selected, show the railgun stats
+        if (railgunStatschk.isSelected()) {
+            railgunStats.setVisible(true);
+            railgunStatschk.setSelected(true);
+        } else {
+            railgunStats.setVisible(false);
+            railgunStatschk.setSelected(false);
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 package it.miketan.pb.serializer.helpers;
 
+import javafx.scene.Group;
 import javafx.scene.control.TextField;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -35,7 +36,8 @@ public class YamlHelper {
                             TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
                             TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
                             TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
-                            TextField wpnScatterAngleMovingField, TextField wpnSpeedField, Text hiddenText) throws NumberFormatException {
+                            TextField wpnScatterAngleMovingField, TextField wpnSpeedField, TextField penetrationChargesField,
+                            TextField penetrationDamageKField, TextField penetrationGeomCostField, TextField penetrationUnitCostField, Group railgunStats, Text hiddenText) throws NumberFormatException {
 
         try (InputStream input = new FileInputStream(file)) {
             Yaml yaml = new Yaml();
@@ -161,6 +163,30 @@ public class YamlHelper {
                                         wpnSpeedField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
                                     }
                                 }
+                                case "wpn_penetration_charges" -> {
+                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                        penetrationChargesField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                                    }
+                                }
+                                case "wpn_penetration_damagek" -> {
+                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                        penetrationDamageKField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                                    }
+                                }
+                                case "wpn_penetration_geomcost" -> {
+                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                        penetrationGeomCostField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                                    }
+                                }
+                                case "wpn_penetration_unitcost" -> {
+                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
+                                        penetrationUnitCostField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
+                                    }
+                                }
+                                default -> {
+                                    // Handle unknown keys.
+                                    System.out.println("Unknown key: " + nestedFieldName);
+                                }
                             }
                         }
                         // UNCOMMENT TO DEBUG.
@@ -181,7 +207,8 @@ public class YamlHelper {
                               TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
                               TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
                               TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
-                              TextField wpnScatterAngleMovingField, TextField wpnSpeedField, Text hiddenText) throws NumberFormatException {
+                              TextField wpnScatterAngleMovingField, TextField wpnSpeedField, TextField penetrationChargesField,
+                              TextField penetrationDamageKField, TextField penetrationGeomCostField, TextField penetrationUnitCostField, Group railgunStats, Text hiddenText) throws NumberFormatException {
 
         //DumperOption controls YAML indentation Style
         DumperOptions dumperOptions = new DumperOptions();
@@ -215,6 +242,14 @@ public class YamlHelper {
         nestedStats.put("wpn_scatter_angle_moving", createYamlNesting(parseField(wpnScatterAngleMovingField)));
         nestedStats.put("wpn_speed", createYamlNesting(parseField(wpnSpeedField)));
 
+        // Railgun stats exposed to serialization if the group container is visible.
+        if (railgunStats.isVisible()) {
+            nestedStats.put("wpn_penetration_charges", createYamlNesting(parseField(penetrationChargesField)));
+            nestedStats.put("wpn_penetration_damagek", createYamlNesting(parseField(penetrationDamageKField)));
+            nestedStats.put("wpn_penetration_geomcost", createYamlNesting(parseField(penetrationGeomCostField)));
+            nestedStats.put("wpn_penetration_unitcost", createYamlNesting(parseField(penetrationUnitCostField)));
+        }
+
         nestedTags.put("tags", "");
         nestedStatDistribution.put("statDistribution", "");
         statsRoot.put("stats", nestedStats);
@@ -238,7 +273,8 @@ public class YamlHelper {
                                          TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
                                          TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
                                          TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
-                                         TextField wpnScatterAngleMovingField, TextField wpnSpeedField, Text hiddenText) throws NumberFormatException {
+                                         TextField wpnScatterAngleMovingField, TextField wpnSpeedField, TextField penetrationChargesField,
+                                         TextField penetrationDamageKField, TextField penetrationGeomCostField, TextField penetrationUnitCostField, Group railgunStats, Text hiddenText) throws NumberFormatException {
 
         // DumperOption controls YAML indentation Style
         DumperOptions dumperOptions = new DumperOptions();
@@ -267,6 +303,14 @@ public class YamlHelper {
         nestedStats.put("wpn_scatter_angle", createYamlNesting(parseField(wpnScatterAngleField)));
         nestedStats.put("wpn_scatter_angle_moving", createYamlNesting(parseField(wpnScatterAngleMovingField)));
         nestedStats.put("wpn_speed", createYamlNesting(parseField(wpnSpeedField)));
+
+        // Railgun stats exposed to clipboard if the group container is visible.
+        if (railgunStats.isVisible()) {
+            nestedStats.put("wpn_penetration_charges", createYamlNesting(parseField(penetrationChargesField)));
+            nestedStats.put("wpn_penetration_damagek", createYamlNesting(parseField(penetrationDamageKField)));
+            nestedStats.put("wpn_penetration_geomcost", createYamlNesting(parseField(penetrationGeomCostField)));
+            nestedStats.put("wpn_penetration_unitcost", createYamlNesting(parseField(penetrationUnitCostField)));
+        }
 
         statsRoot.put("stats", nestedStats);
 
