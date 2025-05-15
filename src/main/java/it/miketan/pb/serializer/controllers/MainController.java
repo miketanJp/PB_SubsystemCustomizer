@@ -157,12 +157,20 @@ non-sealed public class MainController implements IController {
     @FXML
     protected void onSaveBtnClick() throws NumberFormatException {
 
+        //Initialize the file chooser with filter to only save in .YAML
         FileChooser fc = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("YAML files (*.yaml)", "*.yaml");
+        FileChooser.ExtensionFilter extFilter2 = new FileChooser.ExtensionFilter("All files (*.*)", "*.*");
         fc.setTitle("Save Subsystem");
+        fc.getExtensionFilters().add(extFilter);
 
         File file = fc.showSaveDialog(null);
 
         if (file != null) {
+
+            if(!file.getName().toLowerCase().endsWith(".yaml")) {
+                file = new File(file.getAbsolutePath() + ".yaml");
+            }
 
             YamlHelper.export(file, actCountField, actDurationField, heatField, massField, scrapValueField,
                     wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,

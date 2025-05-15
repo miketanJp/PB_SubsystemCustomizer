@@ -116,7 +116,7 @@ public class YamlHelper {
         nestedStatDistribution.put("statDistribution", "");
         statsRoot.put("stats", nestedStats);
 
-        try (FileWriter writer = new FileWriter(file + ".yaml")) {
+        try (FileWriter writer = new FileWriter(file)) {
             yaml.dump(nestedTags, writer);
             yaml.dump(nestedStatDistribution, writer);
             yaml.dump(statsRoot, writer);
