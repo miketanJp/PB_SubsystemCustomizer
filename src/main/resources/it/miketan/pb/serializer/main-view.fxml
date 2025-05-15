@@ -1,133 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
-
-<VBox prefHeight="769.0" prefWidth="800.0" spacing="5.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.miketan.pb.serializer.controllers.MainController">
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox prefHeight="769.0" prefWidth="800.0" spacing="5.0" xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.miketan.pb.serializer.controllers.MainController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
     <HBox alignment="CENTER">
         <ImageView fitHeight="200" fitWidth="200" layoutX="10" layoutY="10">
-            <Image url="@../../../../assets/pb_logo_alt.png" />
+            <Image url="@../../../../assets/pb_logo_alt.png"/>
         </ImageView>
     </HBox>
     <HBox alignment="BASELINE_CENTER">
-        <Text text="%versionValue" />
+        <Text text="%versionValue"/>
     </HBox>
     <AnchorPane fx:id="railgunStatchk" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="760.0">
         <Group fx:id="basicStats">
             <HBox spacing="10">
-                <Text text="%actCount" />
-                <TextField fx:id="actCountField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%actCount"/>
+                <TextField fx:id="actCountField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="30.0" spacing="10">
-                <Text text="%actDuration" />
-                <TextField fx:id="actDurationField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%actDuration"/>
+                <TextField fx:id="actDurationField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="60.0" spacing="10">
-                <Text text="%heat" />
-                <TextField fx:id="heatField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%heat"/>
+                <TextField fx:id="heatField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="90.0" spacing="10">
-                <Text text="%mass" />
-                <TextField fx:id="massField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%mass"/>
+                <TextField fx:id="massField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="120.0" spacing="10">
-                <Text text="%scrapValue" />
-                <TextField fx:id="scrapValueField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%scrapValue"/>
+                <TextField fx:id="scrapValueField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="150.0" spacing="10">
-                <Text text="%wpnConcussion" />
-                <TextField fx:id="wpnConcussionField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnConcussion"/>
+                <TextField fx:id="wpnConcussionField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="180.0" spacing="10">
-                <Text text="%wpnDamage" />
-                <TextField fx:id="wpnDamageField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnDamage"/>
+                <TextField fx:id="wpnDamageField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="210.0" spacing="10">
-                <Text text="%wpnDamageRadius" />
-                <TextField fx:id="wpnDamageRadiusField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnDamageRadius"/>
+                <TextField fx:id="wpnDamageRadiusField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="240.0" spacing="10">
-                <Text text="%wpnImpact" />
-                <TextField fx:id="wpnImpactField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnImpact"/>
+                <TextField fx:id="wpnImpactField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="270.0" spacing="10">
-                <Text text="%wpnImpactRadius" />
-                <TextField fx:id="wpnImpactRadiusField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnImpactRadius"/>
+                <TextField fx:id="wpnImpactRadiusField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="300.0" spacing="10">
-                <Text text="%wpnProjLifeTime" />
-                <TextField fx:id="wpnProjLifeTimeField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnProjLifeTime"/>
+                <TextField fx:id="wpnProjLifeTimeField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="330.0" spacing="10">
-                <Text text="%wpnProjRicochet" />
-                <TextField fx:id="wpnProjRicochetField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnProjRicochet"/>
+                <TextField fx:id="wpnProjRicochetField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="360.0" spacing="10">
-                <Text text="%wpnRangeMax" />
-                <TextField fx:id="wpnRangeMaxField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnRangeMax"/>
+                <TextField fx:id="wpnRangeMaxField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="390.0" spacing="10">
-                <Text text="%wpnRangeMin" />
-                <TextField fx:id="wpnRangeMinField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnRangeMin"/>
+                <TextField fx:id="wpnRangeMinField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="420.0" spacing="10">
-                <Text text="%wpnScatterAngle" />
-                <TextField fx:id="wpnScatterAngleField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnScatterAngle"/>
+                <TextField fx:id="wpnScatterAngleField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="450.0" spacing="10">
-                <Text text="%wpnScatterAngleMoving" />
-                <TextField fx:id="wpnScatterAngleMovingField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnScatterAngleMoving"/>
+                <TextField fx:id="wpnScatterAngleMovingField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
 
             <HBox layoutY="480.0" spacing="10">
-                <Text text="%wpnSpeed" />
-                <TextField fx:id="wpnSpeedField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%wpnSpeed"/>
+                <TextField fx:id="wpnSpeedField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
         </Group>
         <Group fx:id="railgunStats" layoutX="262.0">
             <HBox spacing="10">
-                <Text text="%penetrationCharges" />
-                <TextField fx:id="penetrationChargesField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%penetrationCharges"/>
+                <TextField fx:id="penetrationChargesField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
             <HBox layoutY="30.0" spacing="10">
-                <Text text="%penetrationDamageK" />
-                <TextField fx:id="penetrationDamageKField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%penetrationDamageK"/>
+                <TextField fx:id="penetrationDamageKField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
             <HBox layoutY="60.0" spacing="10">
-                <Text text="%penetrationGeomCost" />
-                <TextField fx:id="penetrationGeomCostField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%penetrationGeomCost"/>
+                <TextField fx:id="penetrationGeomCostField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
             <HBox layoutY="90.0" spacing="10">
-                <Text text="%penetrationUnitCost" />
-                <TextField fx:id="penetrationUnitCostField" maxWidth="80" onKeyPressed="#onInput" />
+                <Text text="%penetrationUnitCost"/>
+                <TextField fx:id="penetrationUnitCostField" maxWidth="80" onKeyPressed="#onInput"/>
             </HBox>
         </Group>
     </AnchorPane>
@@ -136,18 +132,19 @@
             <Button onAction="#onSaveBtnClick" text="%save"/>
             <Button onAction="#onLoadBtnClick" text="%import"/>
             <Button onAction="#copyToClipboard" text="%copyToClip"/>
+            <Button onAction="#onResetBtnClick" text="%resetStats"/>
         </HBox>
         <HBox alignment="CENTER">
-            <CheckBox fx:id="railgunStatschk" alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#onClickChk"
-                      prefHeight="17.0" prefWidth="142.0" selected="true" text="%railgunStatCheckbox"/>
+            <CheckBox fx:id="railgunStatschk" mnemonicParsing="false" onMouseClicked="#onClickChk" prefHeight="17.0"
+                      prefWidth="142.0" selected="true" text="%railgunStatCheckbox"/>
         </HBox>
     </HBox>
 
     <HBox alignment="CENTER" spacing="10">
-        <Text fx:id="hiddenText" visible="false" />
+        <Text fx:id="hiddenText" visible="false"/>
     </HBox>
 
     <HBox alignment="BOTTOM_CENTER">
-        <Text text="%copyrightText" />
+        <Text text="%copyrightText"/>
     </HBox>
 </VBox>

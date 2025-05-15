@@ -13,11 +13,9 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 non-sealed public class MainController implements IController {
 
@@ -103,13 +101,6 @@ non-sealed public class MainController implements IController {
             tooltips.put(wpnSpeedField, "Projectile speed. Higher value makes them travel very fast. Useful for railgun-style weapons for instance.");
         }
 
-        //Tooltips for checkboxes
-        if (railgunStatschk.isPressed() || railgunStats.isVisible()) {
-            Map<CheckBox, String> chkTooltips = new HashMap<>();
-            chkTooltips.put(railgunStatschk, "If checked, the railgun stats will be visible and exposed for export.");
-            chkTooltips.forEach(TooltipsUtil::initializeChkTooltip);
-        }
-
         //Railgun-related stats
         if (railgunStats.isVisible()) {
             tooltips.put(penetrationChargesField, "Penetration charges. Higher value means more charges are needed to penetrate the armor.");
@@ -118,23 +109,48 @@ non-sealed public class MainController implements IController {
             tooltips.put(penetrationUnitCostField, "Penetration unit cost. Higher value means more units are needed to penetrate the armor.");
         }
 
+        //Tooltips for checkboxes
+        if (railgunStatschk.isPressed() || railgunStats.isVisible()) {
+            Map<CheckBox, String> chkTooltips = new HashMap<>();
+            chkTooltips.put(railgunStatschk, "If checked, the railgun stats will be visible and exposed for export.");
+            chkTooltips.forEach(TooltipsUtil::initializeChkTooltip);
+        }
+
         tooltips.forEach(TooltipsUtil::initializeTooltip);
     }
 
     @FXML
-    protected void onLoadBtnClick() throws IOException {
+    protected void onLoadBtnClick() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Open Subsystem");
 
         File file = fc.showOpenDialog(null);
 
         if (file != null) {
-            YamlHelper.load(file, actCountField, actDurationField, heatField, massField, scrapValueField,
-                    wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
-                    wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
-                    wpnRangeMaxField, wpnRangeMinField, wpnScatterAngleField,
-                    wpnScatterAngleMovingField, wpnSpeedField, penetrationChargesField,
-                    penetrationDamageKField, penetrationGeomCostField, penetrationUnitCostField, railgunStats, hiddenText);
+            Map<String, TextField> fieldsMap = Map.ofEntries(
+                    Map.entry("act_count", actCountField),
+                    Map.entry("act_duration", actDurationField),
+                    Map.entry("act_heat", heatField),
+                    Map.entry("mass", massField),
+                    Map.entry("scrap_value", scrapValueField),
+                    Map.entry("wpn_concussion", wpnConcussionField),
+                    Map.entry("wpn_damage", wpnDamageField),
+                    Map.entry("wpn_damage_radius", wpnDamageRadiusField),
+                    Map.entry("wpn_impact", wpnImpactField),
+                    Map.entry("wpn_impact_radius", wpnImpactRadiusField),
+                    Map.entry("wpn_proj_lifetime", wpnProjLifeTimeField),
+                    Map.entry("wpn_proj_ricochet", wpnProjRicochetField),
+                    Map.entry("wpn_range_max", wpnRangeMaxField),
+                    Map.entry("wpn_range_min", wpnRangeMinField),
+                    Map.entry("wpn_scatter_angle", wpnScatterAngleField),
+                    Map.entry("wpn_scatter_angle_moving", wpnScatterAngleMovingField),
+                    Map.entry("wpn_speed", wpnSpeedField),
+                    Map.entry("wpn_penetration_charges", penetrationChargesField),
+                    Map.entry("wpn_penetration_damagek", penetrationDamageKField),
+                    Map.entry("wpn_penetration_geomcost", penetrationGeomCostField),
+                    Map.entry("wpn_penetration_unitcost", penetrationUnitCostField));
+
+            YamlHelper.load(file, fieldsMap, railgunStats, hiddenText);
         }
     }
 
@@ -147,6 +163,7 @@ non-sealed public class MainController implements IController {
         File file = fc.showSaveDialog(null);
 
         if (file != null) {
+
             YamlHelper.export(file, actCountField, actDurationField, heatField, massField, scrapValueField,
                     wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
                     wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
@@ -198,5 +215,28 @@ non-sealed public class MainController implements IController {
             railgunStatschk.setSelected(false);
         }
 
+    }
+
+    public void onResetBtnClick() {
+        //Reset all fields to default values
+        List<TextField> textFields = List.of(
+                actCountField, actDurationField, heatField, massField, scrapValueField,
+                wpnConcussionField, wpnDamageField, wpnDamageRadiusField, wpnImpactField,
+                wpnImpactRadiusField, wpnProjLifeTimeField, wpnProjRicochetField,
+                wpnRangeMaxField, wpnRangeMinField, wpnScatterAngleField,
+                wpnScatterAngleMovingField, wpnSpeedField
+        );
+
+        if (railgunStats.isVisible()) {
+            List<TextField> railgunTextFields = List.of(
+                    penetrationChargesField, penetrationDamageKField, penetrationGeomCostField, penetrationUnitCostField
+            );
+            railgunTextFields.forEach(field -> field.setText("0"));
+        }
+
+        textFields.forEach(field -> field.setText("0"));
+
+        hiddenText.setVisible(true);
+        hiddenText.setText("All stats reset to default values.");
     }
 }

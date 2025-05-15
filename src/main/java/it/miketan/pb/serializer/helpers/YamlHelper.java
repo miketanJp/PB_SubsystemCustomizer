@@ -11,14 +11,13 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * YamlHelper is a utility class for YAML-related operations.
  * It provides methods to load, export, copy YAML data to the clipboard and so on.
  *
  * @author Michele Paolucci (Miketan)
- * @version 1.1.0
+ * @version 1.2.0
  */
 public class YamlHelper {
 
@@ -32,13 +31,7 @@ public class YamlHelper {
         return nestedValue;
     }
 
-    public static void load(File file, TextField actCountField, TextField actDurationField, TextField heatField, TextField massField, TextField scrapValueField,
-                            TextField wpnConcussionField, TextField wpnDamageField, TextField wpnDamageRadiusField, TextField wpnImpactField,
-                            TextField wpnImpactRadiusField, TextField wpnProjLifeTimeField, TextField wpnProjRicochetField,
-                            TextField wpnRangeMaxField, TextField wpnRangeMinField, TextField wpnScatterAngleField,
-                            TextField wpnScatterAngleMovingField, TextField wpnSpeedField, TextField penetrationChargesField,
-                            TextField penetrationDamageKField, TextField penetrationGeomCostField, TextField penetrationUnitCostField, Group railgunStats, Text hiddenText) throws NumberFormatException {
-
+    public static void load(File file, Map<String, TextField> fieldsMap, Group railgunStats, Text hiddenText) throws NumberFormatException {
         try (InputStream input = new FileInputStream(file)) {
             Yaml yaml = new Yaml();
             Map<String, Object> data = yaml.load(input);
@@ -47,150 +40,19 @@ public class YamlHelper {
                 Object value = entry.getValue();
 
                 if (value instanceof Map) {
+
                     Map<String, Object> nestedMap = (Map<String, Object>) value;
+
                     for (Map.Entry<String, Object> nestedEntry : nestedMap.entrySet()) {
                         String nestedFieldName = nestedEntry.getKey();
-                        Object nestedValue = nestedEntry.getValue();
+                        LinkedHashMap nestedValue = (LinkedHashMap) nestedEntry.getValue();
 
-                            /* UNCOMMENT TO DEBUG
-                            if (nestedFieldName != null) {
-                                System.out.println("Value detected");
-                                System.out.println("Nested Field Name: " + nestedFieldName);
-                                System.out.println("Nested" + nestedFieldName + " value: " + ((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                            } else {
-                                System.out.println("value not detected!");
-                            }*/
-
-                        if (nestedValue instanceof LinkedHashMap) {
-
-                            switch (Objects.requireNonNull(nestedFieldName)) {
-                                case "act_count" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        actCountField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-                                case "act_duration" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        actDurationField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-                                case "act_heat" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        heatField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "mass" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        massField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "scrap_value" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        scrapValueField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_concussion" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnConcussionField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_damage" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnDamageField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_damage_radius" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnDamageRadiusField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_impact" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnImpactField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_impact_radius" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnImpactRadiusField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_proj_lifetime" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnProjLifeTimeField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_proj_ricochet" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnProjRicochetField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_range_max" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnRangeMaxField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_range_min" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnRangeMinField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_scatter_angle" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnScatterAngleField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_scatter_angle_moving" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnScatterAngleMovingField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-
-                                case "wpn_speed" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        wpnSpeedField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-                                case "wpn_penetration_charges" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        penetrationChargesField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-                                case "wpn_penetration_damagek" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        penetrationDamageKField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-                                case "wpn_penetration_geomcost" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        penetrationGeomCostField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-                                case "wpn_penetration_unitcost" -> {
-                                    if (((LinkedHashMap<?, ?>) nestedValue).containsKey("value")) {
-                                        penetrationUnitCostField.setText(((LinkedHashMap<?, ?>) nestedValue).get("value").toString());
-                                    }
-                                }
-                                default -> {
-                                    // Handle unknown keys.
-                                    System.out.println("Unknown key: " + nestedFieldName);
-                                }
-                            }
+                        //Needs to manipulate the value to prevent importing alphabetical values.
+                        if (nestedValue != null && fieldsMap.containsKey(nestedFieldName)) {
+                            Object rawValue = nestedValue.get("value");
+                            Integer parsedValue = rawValue instanceof String ? parseField(new TextField(rawValue.toString())) : (Integer) rawValue;
+                            fieldsMap.get(nestedFieldName).setText(String.valueOf(parsedValue));
                         }
-                        // UNCOMMENT TO DEBUG.
-                        // System.out.println("Nested Value: " + nestedValue);
                     }
                 }
             }
