@@ -160,7 +160,6 @@ non-sealed public class MainController implements IController {
         //Initialize the file chooser with filter to only save in .YAML
         FileChooser fc = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("YAML files (*.yaml)", "*.yaml");
-        FileChooser.ExtensionFilter extFilter2 = new FileChooser.ExtensionFilter("All files (*.*)", "*.*");
         fc.setTitle("Save Subsystem");
         fc.getExtensionFilters().add(extFilter);
 
